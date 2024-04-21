@@ -1,8 +1,17 @@
 /* Editor.css */
 .editor-container {
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
+    min-height: 100vh; /* Full height of the viewport */
+    padding: 20px 80px; /* Adjust the padding to your preference for spacing */
+    background-color: #fff; /* White background for a document feel */
+    margin: 0 auto; /* Center the editor in the page */
+    box-shadow: none; /* No shadows for a flat document-like feel */
+    border: none; /* No border */
+    max-width: 800px; /* Maximum width of the content area */
+    word-wrap: break-word; /* Ensures the text wraps within the container */
+}
+
+.ProseMirror:focus {
+    outline: none; /* Removes the default outline */
 }
 
 .button-group {

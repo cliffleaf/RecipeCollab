@@ -1,5 +1,9 @@
 import React from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
+import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 import StarterKit from '@tiptap/starter-kit';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
@@ -11,13 +15,17 @@ const RecipeEditor = () => {
     const editor = useEditor({
         extensions: [
             StarterKit,
+            Document,
+            Paragraph,
+            Text,
+            Heading,
             TextStyle,
             Underline,
             TextAlign.configure({types: ['heading', 'paragraph'],
         })],
         content: '<p>Hello World!</p>',
     });
-    editor?.commands.setTextAlign('left');
+    // editor?.commands.setTextAlign('left');
 
     if (!editor) {
         return null;
@@ -37,7 +45,7 @@ const RecipeEditor = () => {
                 </button>
                 {/* Add more icon buttons as needed */}
             </div>
-            <EditorContent editor={editor} />
+            <EditorContent editor={editor}  />
         </div>
     );
 }
