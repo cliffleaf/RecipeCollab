@@ -1,0 +1,18 @@
+/* Editor.css */
+.editor-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.button-group {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.is-active {
+    background-color: #e0f0ff;
+    color: #0052cc;
+}
