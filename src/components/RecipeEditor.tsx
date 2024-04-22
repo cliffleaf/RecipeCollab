@@ -65,13 +65,17 @@ const RecipeEditor = () => {
                         className={editor.isActive('bold') ? 'is-active' : ''}>
                     <FiBold/>
                 </Button>
+                <Button onClick={() => editor.chain().focus().toggleUnderline().run()}
+                        className={editor.isActive('underline') ? 'is-active' : ''}>
+                    <FiUnderline/>
+                </Button>
                 <Button onClick={() => editor.chain().focus().toggleBulletList().run()}
                         className={editor.isActive('bulletList') ? 'is-active' : ''}>
                     <FiList/>
                 </Button>
-                <Button onClick={() => editor.chain().focus().toggleUnderline().run()}
-                        className={editor.isActive('underline') ? 'is-active' : ''}>
-                    <FiUnderline/>
+                <Button onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                        className={editor.isActive('orderedlist') ? 'is-active' : ''}>
+                    <FiList/>
                 </Button>
                 {/* Add more icon buttons as needed */}
             </ButtonGroup>
@@ -80,7 +84,7 @@ const RecipeEditor = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="editor-input"
-                placeholder="Recipe name"
+                placeholder="Title"
             />
             <input
                 type="text"
