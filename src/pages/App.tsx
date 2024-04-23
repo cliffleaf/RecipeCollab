@@ -12,6 +12,7 @@ function App() {
               <Route path="/" element={<RecipeList />} />
               <Route path="/recipes" element={<RecipeList />} />
               <Route path="/upload" element={<UploadRecipePage />} />
+              <Route path="/edit" element={<UploadRecipePage />} />
               <Route path="/recipes/:id" element={<ViewRecipePage />} />
           </Routes>
       </BrowserRouter>
