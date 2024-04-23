@@ -59,7 +59,7 @@ const RecipeEditor = () => {
 
     return (
         <div className="editor-container">
-            <Button appearance="primary" onClick={handleSubmit} value={editable ? 'Publish' : 'Modify'} >Publish</Button>
+            <Button appearance="primary" onClick={handleSubmit} value={editable ? 'Publish' : 'Modify'}>Publish</Button>
             <ButtonGroup>
                 <Button onClick={() => editor.chain().focus().toggleBold().run()}
                         className={editor.isActive('bold') ? 'is-active' : ''}>
@@ -88,17 +88,17 @@ const RecipeEditor = () => {
             />
             <input
                 type="text"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="editor-input"
-                placeholder="Category"
-            />
-            <input
-                type="text"
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 className="editor-input"
                 placeholder="Author"
+            />
+            <input
+                type="text"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="editor-input"
+                placeholder="Category"
             />
             <EditorContent editor={editor} className="editor-content"/>
         </div>

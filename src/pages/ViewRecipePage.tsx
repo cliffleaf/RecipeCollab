@@ -1,5 +1,5 @@
 import TopNav from "../components/TopNav";
-import RecipeEditor from "../components/RecipeEditor";
+import RecipeViewer from "../components/RecipeViewer";
 
 const ViewRecipePage = () => {
     return (
@@ -8,7 +8,7 @@ const ViewRecipePage = () => {
                 <div className="app-top-nav">
                     <TopNav/>
                 </div>
-                <RecipeEditor />
+                <RecipeViewer />
             </div>
         </>
     );
