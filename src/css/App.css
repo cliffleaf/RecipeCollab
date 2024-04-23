@@ -8,7 +8,7 @@
 
 /* TopNav component */
 .app-top-nav {
-    background-color: #4caf50; /* Example green background */
+    background-color: #4caf50;
     color: white;
     padding: 10px;
     text-align: center;
@@ -18,25 +18,24 @@
 }
 
 .main {
-
+    display: flex;
 }
 
 /* SideNav component */
 .app-side-nav {
     padding: 20px;
     width: 10%;
-    height: calc(100vh - 10vh); /* Full height minus the top nav */
+    height: 80%;
     box-sizing: border-box;
-    display: inline-block;
+    display: block;
+    vertical-align: top;
 }
 
 /* RecipeCard component styling */
 .app-recipe-card-container {
-    display: inline-block;
-    /*flex-direction: column;*/
-    flex-grow: 1; /* Take up remaining space */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     padding: 20px;
-    overflow-y: auto; /* Scroll for overflow */
     width: 80%;
-    /*height: ;*/
 }

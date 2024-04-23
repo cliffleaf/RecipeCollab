@@ -2,10 +2,21 @@
     background-color: #4caf50;
     color: white;
     padding: 10px;
-    text-align: center;
+    text-align: left;
 }
 
 .nav-content {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 3% 0;
+    text-align: left;
+}
+
+.nav-content a {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+}
+
+.nav-content :hover {
+    background: darkgreen;
 }

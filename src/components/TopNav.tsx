@@ -6,7 +6,7 @@ const TopNav = () => {
 
         <nav className="top-nav">
             <div className="nav-content">
-                Home
+                <a href="#" >Home</a>
             </div>
         </nav>
 
