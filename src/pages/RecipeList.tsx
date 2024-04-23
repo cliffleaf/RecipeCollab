@@ -2,7 +2,7 @@ import TopNav from "../components/TopNav";
 import RecipeCard from "../components/RecipeCard";
 import SideNav from "../components/SideNav";
 
-const RecipesPage = () => {
+const RecipeList = () => {
     return (
         <>
             <div className="app-container">
@@ -14,16 +14,14 @@ const RecipesPage = () => {
                         <SideNav/>
                     </div>
                     <div className="app-recipe-card-container">
-                        <RecipeCard title="Orange Chicken" author="Kevin Liang" imgUrl="path_to_image"/>
-                        <RecipeCard title="Orange Chicken" author="Kevin Liang" imgUrl="path_to_image"/>
-                        <RecipeCard title="Orange Chicken" author="Kevin Liang" imgUrl="path_to_image"/>
-                        {/* Repeat RecipeCard for other recipes */}
+                        <RecipeCard id="1" title="Orange Chicken" author="Kevin Liang" imgUrl="path_to_image"/>
+                        <RecipeCard id="1" title="Orange Chicken" author="Kevin Liang" imgUrl="path_to_image"/>
+                        <RecipeCard id="1" title="Orange Chicken" author="Kevin Liang" imgUrl="path_to_image"/>
                     </div>
                 </section>
-                {/*<RecipeEditor />*/}
             </div>
         </>
     );
 }
 
-export default RecipesPage;
+export default RecipeList;

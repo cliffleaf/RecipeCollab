@@ -1,7 +1,7 @@
 import TopNav from "../components/TopNav";
 import RecipeEditor from "../components/RecipeEditor";
 
-const UploadRecipePage = () => {
+const ViewRecipePage = () => {
     return (
         <>
             <div className="app-container">
@@ -14,4 +14,4 @@ const UploadRecipePage = () => {
     );
 }
 
-export default UploadRecipePage;
+export default ViewRecipePage;
