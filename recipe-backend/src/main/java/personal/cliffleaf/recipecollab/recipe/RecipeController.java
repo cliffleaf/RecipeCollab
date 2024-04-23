@@ -1,6 +1,8 @@
 package personal.cliffleaf.recipecollab.recipe;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -12,27 +14,52 @@ public class RecipeController {
     private RecipeService recipeService;
 
     @PostMapping("/upload")
-    public Recipe uploadRecipe(@RequestBody Recipe recipe) {
-        return recipeService.saveRecipe(recipe);
+    public ResponseEntity<Object> uploadRecipe(@RequestBody Recipe recipe) {
+        try {
+            Recipe newRecipe = recipeService.saveRecipe(recipe);
+            return new ResponseEntity<>(newRecipe, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{id}")
-    public Recipe getRecipe(@PathVariable String id) {
-        return recipeService.getRecipeById(id);
+    public ResponseEntity<Object> getRecipe(@PathVariable String id) {
+        try {
+            Recipe recipe = recipeService.getRecipeById(id);
+            return new ResponseEntity<>(recipe, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/edit/{id}")
-    public Recipe editRecipe(@PathVariable String id, @RequestBody Recipe newRecipe) {
-        return recipeService.updateRecipe(id, newRecipe);
+    public ResponseEntity<Object> editRecipe(@PathVariable String id, @RequestBody Recipe newRecipe) {
+        try {
+            Recipe recipe = recipeService.updateRecipe(id, newRecipe);
+            return new ResponseEntity<>(recipe, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
-    public List<Recipe> getRecipesByCategory(@RequestParam String category) {
-        return recipeService.getRecipesByCategory(category);
+    public ResponseEntity<Object> getRecipesByCategory(@RequestParam String category) {
+        try {
+            List<Recipe> recipes = recipeService.getRecipesByCategory(category);
+            return new ResponseEntity<>(recipes, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/all")
-    public List<Recipe> getAllRecipes() {
-        return recipeService.getAllRecipes();
+    public ResponseEntity<Object> getAllRecipes() {
+        try {
+            List<Recipe> recipes = recipeService.getAllRecipes();
+            return new ResponseEntity<>(recipes, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -1,7 +1,5 @@
 package personal.cliffleaf.recipecollab.config;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -12,14 +10,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DynamoDBConfig {
-
-    // The four values below are from AWS DynamoDB service
-    @Value("${aws.accessKey}")
-    private String awsAccessKey;
-
-    @Value("${aws.secretKey}")
-    private String awsSecretKey;
-
     @Value("${aws.serviceEndpoint}")
     private String serviceEndpoint;
 
@@ -32,12 +22,10 @@ public class DynamoDBConfig {
     }
 
     private AmazonDynamoDB amazonDynamoDBConfig() {
+        // Automatically use credentials from the environment or AWS credentials profiles
         return AmazonDynamoDBClientBuilder
                 .standard()
-                .withEndpointConfiguration(
-                        new AwsClientBuilder.EndpointConfiguration(serviceEndpoint, region))
-                .withCredentials(
-                        new AWSStaticCredentialsProvider(new BasicAWSCredentials(awsAccessKey, awsSecretKey)))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(serviceEndpoint, region))
                 .build();
     }
 }
