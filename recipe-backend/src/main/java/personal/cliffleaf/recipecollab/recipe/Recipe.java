@@ -1,6 +1,6 @@
 package personal.cliffleaf.recipecollab.recipe;
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import java.util.List;
 
 @DynamoDBTable(tableName = "Recipe")
