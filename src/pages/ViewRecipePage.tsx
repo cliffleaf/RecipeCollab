@@ -1,14 +1,20 @@
 import TopNav from "../components/TopNav";
-import RecipeEditor from "../components/RecipeEditor";
+import RecipeViewer from "../components/RecipeViewer";
+import { useParams } from 'react-router-dom';
 
 const ViewRecipePage = () => {
+    const { id } = useParams();
+    if (!id) {
+        return <div>Recipe Not Found</div>;
+    }
+
     return (
         <>
             <div className="app-container">
                 <div className="app-top-nav">
                     <TopNav/>
                 </div>
-                <RecipeEditor />
+                <RecipeViewer id={id} />
             </div>
         </>
     );
