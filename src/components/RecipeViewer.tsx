@@ -23,8 +23,7 @@ const RecipeViewer: React.FC<RecipeViewerProps> = ({ id }) => {
     };
 
     const handleClick = () => {
-        // Navigate and pass the entire recipe data as state
-        navigate('/upload', { state: { recipe: recipeData } });
+        navigate('/edit', { state: { recipe: recipeData } });
     }
 
     return (
