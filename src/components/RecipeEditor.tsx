@@ -13,9 +13,11 @@ import {Document} from "@tiptap/extension-document";
 import {Text} from "@tiptap/extension-text";
 
 import '../css/RecipeEditor.css';
+import {useNavigate} from "react-router-dom";
 
 type RecipeEditorProps = {
     recipe: {
+        id: string | null;
         title: string | null;
         author: string | null;
         category: string | null;
@@ -24,15 +26,15 @@ type RecipeEditorProps = {
 };
 
 const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
+    const navigate = useNavigate();
     // if there is data, then the page was redirected from "edit" button, not "upload new" button
     const [formData, setFormData] = useState({
+        id: recipe?.id || null,
         title: recipe?.title || '',
         author: recipe?.author || '',
         category: recipe?.category || '',
         article: recipe?.article || '',
     });
-
-    const [editable, setEditable] = useState(true);
 
     // Tiptap editor initialization
     const editor = useEditor({
@@ -48,13 +50,10 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
             TextAlign.configure({
                 types: ['heading', 'paragraph'],
             })],
-        content: formData.article, // Preload content if editing
-        editable: editable
+        content: formData.article,
     });
 
-    if (!editor) {
-        return null;
-    }
+    if (!editor) return null;
 
     // Update individual form field states
     const handleChange = (e: any) => {
@@ -65,32 +64,16 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
         }));
     };
 
-    // Handle form submission
     const handleSubmit = () => {
-        if (editable) {
-            const articleContent = editor.getHTML();
-            const updatedData = {
-                ...formData,
-                article: articleContent
-            };
-            alert(JSON.stringify(updatedData));
-            setEditable(false);
-            editor.setEditable(false);
-        } else {
-            setEditable(true);
-            editor.setEditable(true);
-        }
+        // POST or UPDATE endpoint
+        // const recipeId = formData.id || response.data.id;
+        const recipeId = "1";
+        navigate(`/recipes/${recipeId}`);
     };
-
-    if (!editor) {
-        return null; // Ensure editor is initialized
-    }
 
     return (
         <div className="editor-container">
-            <Button appearance="primary" onClick={handleSubmit}>
-                {editable ? 'Publish' : 'Modify'}
-            </Button>
+            <Button appearance="primary" onClick={handleSubmit}>Publish</Button>
             <ButtonGroup>
                 <Button onClick={() => editor.chain().focus().toggleBold().run()}
                         className={editor.isActive('bold') ? 'is-active' : ''}>
