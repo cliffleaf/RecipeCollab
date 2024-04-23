@@ -2,6 +2,7 @@ package personal.cliffleaf.recipecollab.recipe;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
@@ -15,10 +16,10 @@ public class RecipeRepository {
 
     @Autowired
     private DynamoDBMapper mapper;
-//    DynamoDBMapper mapper = new DynamoDBMapper(amazonDynamoDB());
 
-    public void save(Recipe recipe) {
+    public Recipe save(Recipe recipe) {
         mapper.save(recipe);
+        return recipe; // Return the updated recipe object with the generated ID
     }
 
     public Recipe findById(String id) {
@@ -46,6 +47,11 @@ public class RecipeRepository {
                 new Condition()
                         .withComparisonOperator(ComparisonOperator.CONTAINS)
                         .withAttributeValueList(new AttributeValue().withS(category)));
+        return mapper.scan(Recipe.class, scanExpression);
+    }
+
+    public List<Recipe> findAll() {
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         return mapper.scan(Recipe.class, scanExpression);
     }
 }

@@ -23,12 +23,16 @@ public class RecipeController {
 
     @PutMapping("/edit/{id}")
     public Recipe editRecipe(@PathVariable String id, @RequestBody Recipe newRecipe) {
-        return null;
+        return recipeService.updateRecipe(id, newRecipe);
     }
 
     @GetMapping
     public List<Recipe> getRecipesByCategory(@RequestParam String category) {
-        return null;
+        return recipeService.getRecipesByCategory(category);
     }
 
+    @GetMapping("/all")
+    public List<Recipe> getAllRecipes() {
+        return recipeService.getAllRecipes();
+    }
 }

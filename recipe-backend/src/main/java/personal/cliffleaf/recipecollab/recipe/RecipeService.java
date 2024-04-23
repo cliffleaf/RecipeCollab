@@ -2,7 +2,8 @@ package personal.cliffleaf.recipecollab.recipe;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
+
+import java.util.List;
 
 @Service
 public class RecipeService {
@@ -19,6 +20,16 @@ public class RecipeService {
         return recipeRepository.findById(id);
     }
 
-    // Implement more business logic as needed, such as update, delete, etc.
+    public Recipe updateRecipe(String id, Recipe newRecipe) {
+        return recipeRepository.update(id, newRecipe);
+    }
+
+    public List<Recipe> getRecipesByCategory(String category) {
+        return recipeRepository.getRecipesByCategory(category);
+    }
+
+    public List<Recipe> getAllRecipes() {
+        return recipeRepository.findAll();
+    }
 }
 
