@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../css/RecipeViewer.css'
+import '../css/RecipeEditor.css'
 import Button from "@atlaskit/button";
 import EditFilledIcon from '@atlaskit/icon/glyph/edit-filled';
 
@@ -29,10 +29,10 @@ const RecipeViewer: React.FC<RecipeViewerProps> = ({ id }) => {
     return (
         <div className="editor-container">
             <Button appearance="primary" onClick={handleClick}><EditFilledIcon label=""/></Button>
-            <h3 className="recipe-info">{recipeData.title}</h3>
-            <text className="recipe-info">{recipeData.author}</text>
-            <text className="recipe-info">{recipeData.category}</text>
-            <text className="recipe-info">{recipeData.article}</text>
+            <h1 className="editor-input h1-style-input">{recipeData.title}</h1>
+            <text className="editor-input">{recipeData.author}</text>
+            <text className="editor-input">{recipeData.category}</text>
+            <text className="editor-input">{recipeData.article}</text>
         </div>
     );
 };
