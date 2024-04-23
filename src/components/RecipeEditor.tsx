@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
+
 import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Button, {ButtonGroup} from '@atlaskit/button';
-import { FiBold, FiUnderline, FiList } from 'react-icons/fi';
 import {Paragraph} from "@tiptap/extension-paragraph";
 import {Heading} from "@tiptap/extension-heading";
 import {TextStyle} from "@tiptap/extension-text-style";
@@ -11,6 +9,14 @@ import {Placeholder} from "@tiptap/extension-placeholder";
 import {TextAlign} from "@tiptap/extension-text-align";
 import {Document} from "@tiptap/extension-document";
 import {Text} from "@tiptap/extension-text";
+import StarterKit from '@tiptap/starter-kit';
+
+import Button, {ButtonGroup} from '@atlaskit/button';
+import EditorNumberListIcon from '@atlaskit/icon/glyph/editor/number-list';
+import EditorBulletListIcon from '@atlaskit/icon/glyph/editor/bullet-list';
+import EditorBoldIcon from '@atlaskit/icon/glyph/editor/bold';
+import EditorUnderlineIcon from '@atlaskit/icon/glyph/editor/underline';
+import EditorItalicIcon from '@atlaskit/icon/glyph/editor/italic';
 
 import '../css/RecipeEditor.css';
 import {useNavigate} from "react-router-dom";
@@ -73,23 +79,29 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
 
     return (
         <div className="editor-container">
-            <Button appearance="primary" onClick={handleSubmit}>Publish</Button>
+            <div style={{display: "block", marginBottom: "20px", marginLeft: "80%"}}>
+                <Button appearance="primary" onClick={handleSubmit}>Publish</Button>
+            </div>
             <ButtonGroup>
                 <Button onClick={() => editor.chain().focus().toggleBold().run()}
                         className={editor.isActive('bold') ? 'is-active' : ''}>
-                    <FiBold />
+                    <EditorBoldIcon label="" />
+                </Button>
+                <Button onClick={() => editor.chain().focus().toggleItalic().run()}
+                        className={editor.isActive('italic') ? 'is-active' : ''}>
+                    <EditorItalicIcon label="" />
                 </Button>
                 <Button onClick={() => editor.chain().focus().toggleUnderline().run()}
                         className={editor.isActive('underline') ? 'is-active' : ''}>
-                    <FiUnderline />
+                    <EditorUnderlineIcon label="" />
                 </Button>
                 <Button onClick={() => editor.chain().focus().toggleBulletList().run()}
                         className={editor.isActive('bulletList') ? 'is-active' : ''}>
-                    <FiList />
+                    <EditorBulletListIcon label="" />
                 </Button>
                 <Button onClick={() => editor.chain().focus().toggleOrderedList().run()}
                         className={editor.isActive('orderedList') ? 'is-active' : ''}>
-                    <FiList />
+                    <EditorNumberListIcon label="" />
                 </Button>
             </ButtonGroup>
             <input
@@ -97,7 +109,7 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
                 type="text"
                 value={formData.title}
                 onChange={handleChange}
-                className="editor-input"
+                className="editor-input h1-style-input"
                 placeholder="Title"
             />
             <input
