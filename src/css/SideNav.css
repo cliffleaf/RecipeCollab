@@ -1,0 +1,8 @@
+.side-nav {
+    border-right: 1px solid #ccc;
+    padding: 10px;
+}
+
+.side-nav-items {
+    width: 100%;
+}
