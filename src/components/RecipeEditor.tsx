@@ -102,7 +102,7 @@ const RecipeEditor = () => {
             />
             <EditorContent editor={editor} className="editor-content"/>
         </div>
-    )
+    );
 }
 
 export default RecipeEditor;
