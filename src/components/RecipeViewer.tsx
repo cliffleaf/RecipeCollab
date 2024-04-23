@@ -1,14 +1,23 @@
-import React, {useState} from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-
+import React from 'react';
 import '../css/RecipeViewer.css'
 import Button from "@atlaskit/button";
 import EditFilledIcon from '@atlaskit/icon/glyph/edit-filled';
 
-const RecipeViewer = () => {
-    const [title, setTitle] = useState('');
-    const [author, setAuthor] = useState('');
-    const [category, setCategory] = useState('');
+type RecipeViewerProps = {id: string};
+type RecipeInfo = {
+    title: string,
+    author: string,
+    category: string,
+    article: string
+}
+
+const RecipeViewer: React.FC<RecipeViewerProps> = ( {id} ) => {
+    const {title, author, category, article}: RecipeInfo = {
+        title: "Orange Chicken",
+        author: "Kevin Liang",
+        category: "Food",
+        article: "step 1"
+    };
 
     const handleClick = () => {
 
@@ -16,29 +25,11 @@ const RecipeViewer = () => {
 
     return (
         <div className="editor-container">
-            <Button appearance="primary" onClick={handleClick}><EditFilledIcon label="" /></Button>
-            <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="editor-input"
-                placeholder="Title"
-            />
-            <text></text>
-            <input
-                type="text"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="editor-input"
-                placeholder="Category"
-            />
-            <input
-                type="text"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-                className="editor-input"
-                placeholder="Author"
-            />
+            <Button appearance="primary" onClick={handleClick}><EditFilledIcon label=""/></Button>
+            <h3 className="recipe-info">{title}</h3>
+            <text className="recipe-info">{author}</text>
+            <text className="recipe-info">{category}</text>
+            <text className="recipe-info">{article}</text>
         </div>
     );
 }
