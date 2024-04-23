@@ -1,6 +1,6 @@
 import React from 'react';
-import './App.css';
-import RecipeEditor from "./components/RecipeEditor";
+import '../css/App.css';
+import RecipeEditor from "./RecipeEditor";
 
 function App() {
   return (
