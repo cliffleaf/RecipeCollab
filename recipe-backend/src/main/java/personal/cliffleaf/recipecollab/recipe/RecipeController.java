@@ -25,7 +25,7 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getRecipe(@PathVariable String id) {
+    public ResponseEntity<Object> getRecipe(@PathVariable("id") String id) {
         try {
             Recipe recipe = recipeService.getRecipeById(id);
             return new ResponseEntity<>(recipe, HttpStatus.OK);
@@ -35,7 +35,7 @@ public class RecipeController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Object> editRecipe(@PathVariable String id, @RequestBody Recipe newRecipe) {
+    public ResponseEntity<Object> editRecipe(@PathVariable("id") String id, @RequestBody Recipe newRecipe) {
         try {
             Recipe recipe = recipeService.updateRecipe(id, newRecipe);
             return new ResponseEntity<>(recipe, HttpStatus.OK);
