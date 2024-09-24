@@ -20,3 +20,15 @@
 .nav-content :hover {
     background: darkgreen;
 }
+
+.community-dropdown {
+    margin-left: 20px;
+    padding: 5px;
+    color: black;
+    border-radius: 4px;
+}
+
+/* apply nothing and remove any parent css  */
+.community-dropdown:hover {
+    background: white;
+}
