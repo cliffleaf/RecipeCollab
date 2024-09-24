@@ -1,0 +1,1 @@
+export const API_BASE_URL = "https://cjje601pb1.execute-api.ap-southeast-2.amazonaws.com/dev";

@@ -1,8 +1,29 @@
 import TopNav from "../components/TopNav";
 import RecipeCard from "../components/RecipeCard";
 import SideNav from "../components/SideNav";
+import { API_BASE_URL } from '../config';
+import {useEffect, useState} from "react";
+import axios, {AxiosError, AxiosResponse} from 'axios';
+
+type Recipe = {
+    id: string;
+    title: string;
+    author: string;
+    imageUrl?: string | null;
+    content?: string;
+    categories?: string[];
+}
+
+const api = axios.create({
+    baseURL: API_BASE_URL,
+    withCredentials: false
+});
 
 const RecipeList = () => {
+    const [recipes, setRecipes] = useState([]); // State to store recipes
+
+    api.get<Recipe[]>(`/api/recipe/all`).then(res => console.log(res.data));
+
     return (
         <>
             <div className="app-container">
@@ -14,9 +35,14 @@ const RecipeList = () => {
                         <SideNav/>
                     </div>
                     <div className="app-recipe-card-container">
-                        <RecipeCard id="1" title="Orange Chicken" author="Kevin Liang" imgUrl="path_to_image"/>
-                        <RecipeCard id="1" title="Orange Chicken" author="Kevin Liang" imgUrl="path_to_image"/>
-                        <RecipeCard id="1" title="Orange Chicken" author="Kevin Liang" imgUrl="path_to_image"/>
+                        {recipes.map((recipe: Recipe) => (
+                            <RecipeCard
+                                id={recipe.id}
+                                title={recipe.title}
+                                author={recipe.author}
+                                imgUrl="null"
+                            />
+                        ))}
                     </div>
                 </section>
             </div>
