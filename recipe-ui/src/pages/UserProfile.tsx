@@ -34,6 +34,20 @@ const UserProfile = () => {
                 imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
                 community: "xxx"
             },
+            {
+                id: "",
+                title: "Spaghetti Bolognese",
+                author: "",
+                imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+                community: "xxx"
+            },
+            {
+                id: "",
+                title: "Spaghetti Bolognese",
+                author: "",
+                imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+                community: "xxx"
+            },
         ],
         joinedCommunities: [
             {
@@ -120,7 +134,6 @@ const UserProfile = () => {
                         
                     </div>
                     <div className="recipes-section">
-                        <ul>
                             {user.uploadedRecipes.map((recipe, index) => (
                                 <ProfileRecipeCard 
                                     key={index}
@@ -129,7 +142,6 @@ const UserProfile = () => {
                                     imgUrl={recipe.imageUrl}
                                 />
                             ))}
-                        </ul>
                     </div>
                 </div>
 

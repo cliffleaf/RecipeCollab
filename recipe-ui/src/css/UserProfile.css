@@ -52,19 +52,15 @@
 }
 
 .recipes-section {
+    display: flex;
+    flex-wrap: wrap;
     width: 80%;
     margin: 0 auto;
 }
 
-.recipes-section ul {
-    display: flex;
-    flex-direction: row;
-    list-style-type: none;
-    padding: 0;
-}
-
-.recipes-section ul div {
+.recipes-section > * {
     margin: 10px;
+    flex: 0 0 calc(30% - 40px);
 }
 
 .communities-section {
