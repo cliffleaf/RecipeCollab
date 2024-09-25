@@ -17,6 +17,7 @@ import EditorBulletListIcon from '@atlaskit/icon/glyph/editor/bullet-list';
 import EditorBoldIcon from '@atlaskit/icon/glyph/editor/bold';
 import EditorUnderlineIcon from '@atlaskit/icon/glyph/editor/underline';
 import EditorItalicIcon from '@atlaskit/icon/glyph/editor/italic';
+import ImageIcon from '@atlaskit/icon/glyph/image'
 
 import '../css/RecipeEditor.css';
 import {useNavigate} from "react-router-dom";
@@ -60,6 +61,17 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
         );
     };
 
+    const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
+
+    const handleThumbnailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            // Create a preview URL for the selected image
+            const previewURL = URL.createObjectURL(file);
+            setThumbnailPreview(previewURL);
+        }
+    };
+
     // Tiptap editor initialization
     const editor = useEditor({
         extensions: [
@@ -96,18 +108,18 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
 
     return (
         <div className="editor-container">
-            <div style={{display: "block", marginBottom: "20px", marginLeft: "80%"}}>
+             <div className="title-publish-container" style={{ display: "flex",  alignItems: "center", marginBottom: "20px" }}>
+                <input
+                    name="title"
+                    type="text"
+                    value={formData.title}
+                    onChange={handleChange}
+                    className="editor-input h1-style-input"
+                    placeholder="Title"
+                    style={{ flex: "1", marginRight: "20px" }}
+                />
                 <Button appearance="primary" onClick={handleSubmit}>Publish</Button>
             </div>
-            
-            <input
-                name="title"
-                type="text"
-                value={formData.title}
-                onChange={handleChange}
-                className="editor-input h1-style-input"
-                placeholder="Title"
-            />
             <div className="category-selection">
                 {predefinedCategories.map((category, index) => (
                     <button
@@ -144,6 +156,27 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
                 </ButtonGroup>
                 <EditorContent editor={editor} className="editor-content" />
             </div>
+            {/* Thumbnail Upload Section */}
+            <div className="thumbnail-upload">
+                <label htmlFor="thumbnail">
+                    <ImageIcon label="Upload Thumbnail" size="large" />
+                    <div className="thumbnail-caption">Choose Thumbnail</div>
+                </label>
+                <input 
+                    type="file" 
+                    id="thumbnail" 
+                    name="thumbnail" 
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handleThumbnailChange} // Handle file input change
+                />
+            </div>
+
+            {thumbnailPreview && (
+                <div className="thumbnail-preview">
+                    <img src={thumbnailPreview} alt="Thumbnail Preview" />
+                </div>
+            )}
         </div>
     );
 };

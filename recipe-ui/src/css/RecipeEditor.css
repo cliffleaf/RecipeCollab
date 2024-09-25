@@ -112,3 +112,29 @@
     height: 0;
     pointer-events: none;
 }
+
+.thumbnail-upload {
+    margin-top: 20px;
+    border: 1px dashed;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.thumbnail-upload label {
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.thumbnail-preview img {
+    max-width: 150px;
+    max-height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
