@@ -14,16 +14,19 @@ const SideNav = () => {
                 <ButtonItem onClick={handleSelected} isSelected>All</ButtonItem>
             </section>
             <section className="side-nav-items">
-                <ButtonItem onClick={handleSelected}>Category 1</ButtonItem>
+                <ButtonItem onClick={handleSelected}>家常菜</ButtonItem>
             </section>
             <section className="side-nav-items">
-                <ButtonItem onClick={handleSelected}>Category 2</ButtonItem>
+                <ButtonItem onClick={handleSelected}>便当</ButtonItem>
             </section>
             <section className="side-nav-items">
-                <ButtonItem onClick={handleSelected}>Category 3</ButtonItem>
+                <ButtonItem onClick={handleSelected}>主食</ButtonItem>
             </section>
             <section className="side-nav-items">
-                <ButtonItem onClick={handleSelected}>Category 4</ButtonItem>
+                <ButtonItem onClick={handleSelected}>硬菜</ButtonItem>
+            </section>
+            <section className="side-nav-items">
+                <ButtonItem onClick={handleSelected}>甜品</ButtonItem>
             </section>
         </div>
     );

@@ -61,7 +61,7 @@ const UserProfile = () => {
                 communityAvatar: "https://via.placeholder.com/100",
                 memberCount: 200,
                 userPreferredName: "Johnny",
-            }
+            },
         ],
     });
 
@@ -116,22 +116,19 @@ const UserProfile = () => {
                         />
                     </div>
                     <div className="communities-section">
-                        <ul>
-                            {user.joinedCommunities.map((community, index) => (
-                                <CommunityCard
-                                    key={index}
-                                    communityName={community.communityName}
-                                    communityAvatar={community.communityAvatar}
-                                    memberCount={community.memberCount}
-                                    userPreferredName={community.userPreferredName}
-                                    onLeaveCommunity={() => handleLeaveCommunity(community.communityName)}
-                                />
-                            ))}
-                            <button onClick={handleAddCommunity} className="add-community-button">
-                                <AddIcon label="" />
-                            </button>
-                        </ul>
-                        
+                        {user.joinedCommunities.map((community, index) => (
+                            <CommunityCard
+                                key={index}
+                                communityName={community.communityName}
+                                communityAvatar={community.communityAvatar}
+                                memberCount={community.memberCount}
+                                userPreferredName={community.userPreferredName}
+                                onLeaveCommunity={() => handleLeaveCommunity(community.communityName)}
+                            />
+                        ))}
+                        <button onClick={handleAddCommunity} className="add-community-button">
+                            <AddIcon label="" />
+                        </button>
                     </div>
                     <div className="recipes-section">
                             {user.uploadedRecipes.map((recipe, index) => (
