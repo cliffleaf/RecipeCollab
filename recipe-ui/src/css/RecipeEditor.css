@@ -25,6 +25,12 @@
     color: #0052cc;
 }
 
+.editor-section {  
+    border-top: 1px solid black;
+    margin-top: 40px;
+    padding-top: 20px;
+}
+
 .editor-input {
     width: 20%;
     padding: 10px;
@@ -37,8 +43,10 @@
 }
 
 .editor-content {
-    border: 1px solid black;
     width: 100%;
+    margin-top: 20px;
+    padding: 0px 20px;
+    border: 1px solid #ccc;
 }
 
 .editor-input:focus {

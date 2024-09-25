@@ -99,28 +99,7 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
             <div style={{display: "block", marginBottom: "20px", marginLeft: "80%"}}>
                 <Button appearance="primary" onClick={handleSubmit}>Publish</Button>
             </div>
-            <ButtonGroup>
-                <Button onClick={() => editor.chain().focus().toggleBold().run()}
-                        className={editor.isActive('bold') ? 'is-active' : ''}>
-                    <EditorBoldIcon label="" />
-                </Button>
-                <Button onClick={() => editor.chain().focus().toggleItalic().run()}
-                        className={editor.isActive('italic') ? 'is-active' : ''}>
-                    <EditorItalicIcon label="" />
-                </Button>
-                <Button onClick={() => editor.chain().focus().toggleUnderline().run()}
-                        className={editor.isActive('underline') ? 'is-active' : ''}>
-                    <EditorUnderlineIcon label="" />
-                </Button>
-                <Button onClick={() => editor.chain().focus().toggleBulletList().run()}
-                        className={editor.isActive('bulletList') ? 'is-active' : ''}>
-                    <EditorBulletListIcon label="" />
-                </Button>
-                <Button onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                        className={editor.isActive('orderedList') ? 'is-active' : ''}>
-                    <EditorNumberListIcon label="" />
-                </Button>
-            </ButtonGroup>
+            
             <input
                 name="title"
                 type="text"
@@ -140,7 +119,31 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
                     </button>
                 ))}
             </div>
-            <EditorContent editor={editor} className="editor-content" />
+            <div className='editor-section'>
+                <ButtonGroup>
+                    <Button onClick={() => editor.chain().focus().toggleBold().run()}
+                            className={editor.isActive('bold') ? 'is-active' : ''}>
+                        <EditorBoldIcon label="" />
+                    </Button>
+                    <Button onClick={() => editor.chain().focus().toggleItalic().run()}
+                            className={editor.isActive('italic') ? 'is-active' : ''}>
+                        <EditorItalicIcon label="" />
+                    </Button>
+                    <Button onClick={() => editor.chain().focus().toggleUnderline().run()}
+                            className={editor.isActive('underline') ? 'is-active' : ''}>
+                        <EditorUnderlineIcon label="" />
+                    </Button>
+                    <Button onClick={() => editor.chain().focus().toggleBulletList().run()}
+                            className={editor.isActive('bulletList') ? 'is-active' : ''}>
+                        <EditorBulletListIcon label="" />
+                    </Button>
+                    <Button onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                            className={editor.isActive('orderedList') ? 'is-active' : ''}>
+                        <EditorNumberListIcon label="" />
+                    </Button>
+                </ButtonGroup>
+                <EditorContent editor={editor} className="editor-content" />
+            </div>
         </div>
     );
 };
