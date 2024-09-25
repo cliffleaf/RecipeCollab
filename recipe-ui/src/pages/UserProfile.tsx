@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TopNav from "../components/TopNav";
 import CommunityCard from "../components/CommunityCard";
 import '../css/UserProfile.css';
-import RecipeCard from "../components/RecipeCard";
+import ProfileRecipeCard from "../components/ProfileRecipeCard";
 import { useRef } from "react";
 import AddIcon from '@atlaskit/icon/glyph/add'
 
@@ -12,7 +12,29 @@ const UserProfile = () => {
     const [user, setUser] = useState({
         avatar: "https://via.placeholder.com/150",
         username: "JohnDoe",
-        uploadedRecipes: ["Spaghetti Bolognese", "Chicken Curry", "Beef Stew"],
+        uploadedRecipes: [
+            {
+                id: "",
+                title: "Spaghetti Bolognese",
+                author: "",
+                imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+                community: "xxx"
+            },
+            {
+                id: "",
+                title: "Spaghetti Bolognese",
+                author: "",
+                imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+                community: "xxx"
+            },
+            {
+                id: "",
+                title: "Spaghetti Bolognese",
+                author: "",
+                imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+                community: "xxx"
+            },
+        ],
         joinedCommunities: [
             {
                 communityName: "Community 1",
@@ -40,10 +62,6 @@ const UserProfile = () => {
                 (community) => community.communityName !== communityName
             ),
         });
-    };
-
-    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUser({ ...user, username: e.target.value });
     };
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,12 +101,6 @@ const UserProfile = () => {
                             style={{ display: 'none' }}
                         />
                     </div>
-                    <input
-                        type="text"
-                        value={user.username}
-                        onChange={handleUsernameChange}
-                        className="username-input"
-                    />
                     <div className="communities-section">
                         <ul>
                             {user.joinedCommunities.map((community, index) => (
@@ -110,13 +122,11 @@ const UserProfile = () => {
                     <div className="recipes-section">
                         <ul>
                             {user.uploadedRecipes.map((recipe, index) => (
-                                <RecipeCard 
+                                <ProfileRecipeCard 
                                     key={index}
-                                    id=""
-                                    title={recipe}
-                                    author=""
-                                    imgUrl=""
-                                    community="xxx"
+                                    id={recipe.id}
+                                    title={recipe.title}
+                                    imgUrl={recipe.imageUrl}
                                 />
                             ))}
                         </ul>
