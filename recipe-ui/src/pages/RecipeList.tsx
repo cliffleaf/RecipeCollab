@@ -4,7 +4,7 @@ import CommunityRecipeCard from "../components/CommunityRecipeCard";
 import { API_BASE_URL } from '../config';
 import {useEffect, useState} from "react";
 import axios, {AxiosError, AxiosResponse} from 'axios';
-import "../css/RecipeList.css";
+import '../css/RecipeList.css';
 import EditorSearchIcon from '@atlaskit/icon/glyph/editor/search'
 
 type Recipe = {
