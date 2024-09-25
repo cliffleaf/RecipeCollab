@@ -1,8 +1,5 @@
 import React from 'react';
 import { ButtonItem } from '@atlaskit/side-navigation';
-
-import '../css/SideNav.css';
-
 import {predefinedCategories} from "../config";
 
 const SideNav = () => {

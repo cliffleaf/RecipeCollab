@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../css/CommunityCard.css';
+import '../css/ItemCard.css';
 import EditIcon from '@atlaskit/icon/glyph/edit';
 import CheckIcon from '@atlaskit/icon/glyph/check';
 import { Link } from "react-router-dom";

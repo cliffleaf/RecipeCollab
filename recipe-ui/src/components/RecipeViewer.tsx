@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import '../css/RecipeEditor.css'
+import '../css/Recipe.css'
 import EditIcon from '@atlaskit/icon/glyph/edit'
 import ShareIcon from '@atlaskit/icon/glyph/share';
 

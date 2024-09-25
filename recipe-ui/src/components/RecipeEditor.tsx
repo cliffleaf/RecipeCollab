@@ -19,7 +19,7 @@ import EditorUnderlineIcon from '@atlaskit/icon/glyph/editor/underline';
 import EditorItalicIcon from '@atlaskit/icon/glyph/editor/italic';
 import ImageIcon from '@atlaskit/icon/glyph/image'
 
-import '../css/RecipeEditor.css';
+import '../css/Recipe.css';
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 
