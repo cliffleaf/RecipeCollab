@@ -41,6 +41,7 @@ const RecipeList = () => {
                                 title={recipe.title}
                                 author={recipe.author}
                                 imgUrl="null"
+                                community=""
                             />
                         ))}
                     </div>

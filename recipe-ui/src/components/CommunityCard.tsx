@@ -17,10 +17,9 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ communityName, communityA
 
     return (
         <div className="community-card">
-            <img src={communityAvatar} alt="Community Avatar" className="community-avatar" />
+            {/* <img src={communityAvatar} alt="Community Avatar" className="community-avatar" /> */}
             <div className="community-details">
-                <h4>{communityName}</h4>
-                <p>{memberCount} members</p>
+                <h4>{communityName} ({memberCount})</h4>
                 <input
                     type="text"
                     value={preferredName}
@@ -28,10 +27,10 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ communityName, communityA
                     className="preferred-name-input"
                     placeholder="Your preferred name"
                 />
-                <button onClick={onLeaveCommunity} className="leave-community-button">
-                    Leave Community
-                </button>
             </div>
+            <button onClick={onLeaveCommunity} className="leave-community-button">
+                Leave
+            </button>
         </div>
     );
 };

@@ -7,9 +7,10 @@ type RecipeProps = {
     title: string;
     author: string;
     imgUrl: string;
+    community: string
 };
 
-const RecipeCard: React.FC<RecipeProps> = ( {id, title, author, imgUrl} ) => {
+const RecipeCard: React.FC<RecipeProps> = ( {id, title, author, imgUrl, community} ) => {
     const link = `/recipes/${id}`;
     return (
         <div className="recipe-card">
@@ -17,6 +18,7 @@ const RecipeCard: React.FC<RecipeProps> = ( {id, title, author, imgUrl} ) => {
             <div className="recipe-card-text">
                 <h3><Link to={link}>{title}</Link></h3>
                 <p>{author}</p>
+                <p>shared in {community}</p>
             </div>
         </div>
     );
