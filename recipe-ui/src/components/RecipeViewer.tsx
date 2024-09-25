@@ -9,7 +9,7 @@ type RecipeViewerProps = {id: string};
 type RecipeInfo = {
     title: string,
     author: string,
-    category: string,
+    categories: string[],
     article: string
 }
 
@@ -20,7 +20,7 @@ const RecipeViewer: React.FC<RecipeViewerProps> = ({ id }) => {
     const recipeData: RecipeInfo = {
         title: "Orange Chicken",
         author: "东街一只猫",
-        category: "便当",
+        categories: ["便当", "家常菜"],
         article: "step 1"
     };
 
@@ -65,7 +65,12 @@ const RecipeViewer: React.FC<RecipeViewerProps> = ({ id }) => {
                 <h1 className="editor-input h1-style-input">{recipeData.title}</h1>
                 <text className="editor-input editor-author">@{recipeData.author}</text>
             </div>
-            <text className="editor-input">{recipeData.category}</text>
+            {/* <text className="editor-input">{recipeData.category}</text> */}
+            <div className="editor-categories">
+                {recipeData.categories.map((category, index) => (
+                    <span key={index} className="category-chip">{category}</span>
+                ))}
+            </div>
             <text className="editor-input editor-content">{recipeData.article}</text>
         </div>
     );

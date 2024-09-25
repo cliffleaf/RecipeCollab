@@ -20,13 +20,16 @@ import EditorItalicIcon from '@atlaskit/icon/glyph/editor/italic';
 
 import '../css/RecipeEditor.css';
 import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+
+import {predefinedCategories} from "../config";
 
 type RecipeEditorProps = {
     recipe: {
         id: string | null;
         title: string | null;
         author: string | null;
-        category: string | null;
+        categories: string[] | null;
         article: string | null;
     };
 };
@@ -38,9 +41,24 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
         id: recipe?.id || null,
         title: recipe?.title || '',
         author: recipe?.author || '',
-        category: recipe?.category || '',
+        categories: recipe?.categories || [],
         article: recipe?.article || '',
     });
+
+    useEffect(() => {
+        if (formData.categories.length > 0) {
+            setSelectedCategories(formData.categories);
+        }
+    }, [formData.categories]);
+
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(formData.categories || []);
+    const handleCategorySelect = (category: string) => {
+        setSelectedCategories(prevSelected =>
+            prevSelected.includes(category)
+                ? prevSelected.filter(c => c !== category)
+                : [...prevSelected, category]
+        );
+    };
 
     // Tiptap editor initialization
     const editor = useEditor({
@@ -71,8 +89,7 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
     };
 
     const handleSubmit = () => {
-        // POST or UPDATE endpoint
-        // const recipeId = formData.id || response.data.id;
+        // TODO
         const recipeId = "1";
         navigate(`/recipes/${recipeId}`);
     };
@@ -112,14 +129,17 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
                 className="editor-input h1-style-input"
                 placeholder="Title"
             />
-            <input
-                name="category"
-                type="text"
-                value={formData.category}
-                onChange={handleChange}
-                className="editor-input"
-                placeholder="Category"
-            />
+            <div className="category-selection">
+                {predefinedCategories.map((category, index) => (
+                    <button
+                        key={index}
+                        onClick={() => handleCategorySelect(category)}
+                        className={selectedCategories.includes(category) ? 'category-chip-edit selected' : 'category-chip-edit'}
+                    >
+                        {category}
+                    </button>
+                ))}
+            </div>
             <EditorContent editor={editor} className="editor-content" />
         </div>
     );
