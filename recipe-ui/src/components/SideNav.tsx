@@ -5,7 +5,7 @@ import '../css/SideNav.css';
 
 const SideNav = () => {
     const handleSelected = () => {
-
+        alert("Still working on this feature");
     }
 
     return (
