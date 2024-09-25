@@ -62,16 +62,15 @@ const RecipeViewer: React.FC<RecipeViewerProps> = ({ id }) => {
                 </div>
             )}
             <div className="editor-title-author">
-                <h1 className="editor-input h1-style-input">{recipeData.title}</h1>
-                <text className="editor-input editor-author">@{recipeData.author}</text>
+                <h1 className="h1-style-input">{recipeData.title}</h1>
+                <text className="editor-author">@{recipeData.author}</text>
             </div>
-            {/* <text className="editor-input">{recipeData.category}</text> */}
             <div className="editor-categories">
                 {recipeData.categories.map((category, index) => (
                     <span key={index} className="category-chip">{category}</span>
                 ))}
             </div>
-            <text className="editor-input editor-content">{recipeData.article}</text>
+            <text className="viewer-content">{recipeData.article}</text>
         </div>
     );
 };

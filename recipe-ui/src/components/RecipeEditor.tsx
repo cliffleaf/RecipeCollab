@@ -114,7 +114,7 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
                     type="text"
                     value={formData.title}
                     onChange={handleChange}
-                    className="editor-input h1-style-input"
+                    className="h1-style-input"
                     placeholder="Title"
                     style={{ flex: "1", marginRight: "20px" }}
                 />

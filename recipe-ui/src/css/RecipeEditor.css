@@ -31,26 +31,22 @@
     padding-top: 20px;
 }
 
-.editor-input {
-    width: 20%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    display: block;
-}
-
 .editor-content {
     width: 100%;
     margin-top: 20px;
     padding: 0px 20px;
     border: 1px solid #ccc;
+    font-size: 16px;
+    display: block;
 }
 
-.editor-input:focus {
-    outline: none;
+.viewer-content {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    border-top: 1px solid #ccc;
+    font-size: 16px;
+    display: block;
 }
 
 .editor-title-author {
@@ -59,6 +55,7 @@
 }
 
 .h1-style-input {
+    margin-right: 20px;
     font-size: 2em;     
     font-weight: bold;   
     line-height: 1.1;
