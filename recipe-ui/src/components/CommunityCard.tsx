@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import '../css/CommunityCard.css';
 import EditIcon from '@atlaskit/icon/glyph/edit';
 import CheckIcon from '@atlaskit/icon/glyph/check';
+import { Link } from "react-router-dom";
 
 interface CommunityCardProps {
+    link: string;
     communityName: string;
-    communityAvatar: string;
     memberCount: number;
     userPreferredName: string;
     onLeaveCommunity: () => void;
 }
 
-const CommunityCard: React.FC<CommunityCardProps> = ({ communityName, memberCount, userPreferredName, onLeaveCommunity }) => {
+const CommunityCard: React.FC<CommunityCardProps> = ({ link, communityName, memberCount, userPreferredName, onLeaveCommunity }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [name, setName] = useState(userPreferredName);
 
@@ -30,9 +31,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({ communityName, memberCoun
     return (
         <div className="community-card">
             <div className="community-details">
-                <h4>
-                    {communityName} ({memberCount})
-                </h4>
+                <h4><Link to={link}>{communityName} ({memberCount})</Link></h4>
                 <div className="preferred-name-container">
                     <input
                         type="text"

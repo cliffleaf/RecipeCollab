@@ -5,8 +5,7 @@ body {
 
 /* TopNav component */
 .app-top-nav {
-    background-color: #4caf50;
-    color: white;
+    /* background-color: #4caf50; */
     padding: 10px;
     text-align: center;
     width: 100%;
@@ -25,13 +24,4 @@ body {
     height: 80%;
     box-sizing: border-box;
     display: block;
-}
-
-/* RecipeCard component styling */
-.app-recipe-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px;
-    width: 80%;
 }

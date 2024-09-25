@@ -27,7 +27,7 @@ const CommunityRecipeCard: React.FC<RecipeProps> = ( {id, title, author, imgUrl}
             <img src={imgUrl} alt={title} className="recipe-image" />
             <div className="recipe-card-text">
                 <h3><Link to={link}>{title}</Link></h3>
-                <p>{author}</p>
+                <p>@{author}</p>
             </div>
         </div>
     );

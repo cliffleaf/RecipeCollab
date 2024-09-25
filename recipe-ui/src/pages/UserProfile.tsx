@@ -14,21 +14,35 @@ const UserProfile = () => {
         username: "JohnDoe",
         uploadedRecipes: [
             {
-                id: "",
+                id: "1",
                 title: "Spaghetti Bolognese",
                 author: "",
                 imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
                 community: "xxx"
             },
             {
-                id: "",
+                id: "1",
                 title: "Spaghetti Bolognese",
                 author: "",
                 imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
                 community: "xxx"
             },
             {
-                id: "",
+                id: "1",
+                title: "Spaghetti Bolognese",
+                author: "",
+                imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+                community: "xxx"
+            },
+            {
+                id: "1",
+                title: "Spaghetti Bolognese",
+                author: "",
+                imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+                community: "xxx"
+            },
+            {
+                id: "1",
                 title: "Spaghetti Bolognese",
                 author: "",
                 imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
@@ -37,17 +51,17 @@ const UserProfile = () => {
         ],
         joinedCommunities: [
             {
+                link: "/recipes",
                 communityName: "Community 1",
-                communityAvatar: "https://via.placeholder.com/100",
                 memberCount: 150,
                 userPreferredName: "John",
             },
             {
+                link: "/recipes",
                 communityName: "Community 2",
-                communityAvatar: "https://via.placeholder.com/100",
                 memberCount: 200,
                 userPreferredName: "Johnny",
-            }
+            },
         ],
     });
 
@@ -102,25 +116,21 @@ const UserProfile = () => {
                         />
                     </div>
                     <div className="communities-section">
-                        <ul>
-                            {user.joinedCommunities.map((community, index) => (
-                                <CommunityCard
-                                    key={index}
-                                    communityName={community.communityName}
-                                    communityAvatar={community.communityAvatar}
-                                    memberCount={community.memberCount}
-                                    userPreferredName={community.userPreferredName}
-                                    onLeaveCommunity={() => handleLeaveCommunity(community.communityName)}
-                                />
-                            ))}
-                            <button onClick={handleAddCommunity} className="add-community-button">
-                                <AddIcon label="" />
-                            </button>
-                        </ul>
-                        
+                        {user.joinedCommunities.map((community, index) => (
+                            <CommunityCard
+                                key={index}
+                                link={community.link}
+                                communityName={community.communityName}
+                                memberCount={community.memberCount}
+                                userPreferredName={community.userPreferredName}
+                                onLeaveCommunity={() => handleLeaveCommunity(community.communityName)}
+                            />
+                        ))}
+                        <button onClick={handleAddCommunity} className="add-community-button">
+                            <AddIcon label="" />
+                        </button>
                     </div>
                     <div className="recipes-section">
-                        <ul>
                             {user.uploadedRecipes.map((recipe, index) => (
                                 <ProfileRecipeCard 
                                     key={index}
@@ -129,7 +139,6 @@ const UserProfile = () => {
                                     imgUrl={recipe.imageUrl}
                                 />
                             ))}
-                        </ul>
                     </div>
                 </div>
 
