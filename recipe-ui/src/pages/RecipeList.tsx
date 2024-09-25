@@ -25,31 +25,31 @@ const RecipeList = () => {
     // api.get<Recipe[]>(`/api/recipe/all`).then(res => console.log(res.data));
     const recipes = [
         {
-            id: "",
+            id: "1",
             title: "西红柿炒鸡蛋",
             author: "东街一只猫",
             imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
         },
         {
-            id: "",
+            id: "1",
             title: "Spaghetti Bolognese",
             author: "东街一只猫",
             imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
         },
         {
-            id: "",
+            id: "1",
             title: "Spaghetti Bolognese",
             author: "东街一只猫",
             imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
         },
         {
-            id: "",
+            id: "1",
             title: "Spaghetti Bolognese",
             author: "东街一只猫",
             imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
         },
         {
-            id: "",
+            id: "1",
             title: "Spaghetti Bolognese",
             author: "东街一只猫",
             imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
