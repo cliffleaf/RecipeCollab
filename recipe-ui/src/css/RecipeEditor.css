@@ -25,28 +25,81 @@
     color: #0052cc;
 }
 
-.editor-input {
-    width: 20%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.editor-section {  
+    border-top: 1px solid black;
+    margin-top: 40px;
+    padding-top: 20px;
+}
+
+.editor-content {
+    width: 100%;
+    margin-top: 20px;
+    padding: 0px 20px;
+    border: 1px solid #ccc;
     font-size: 16px;
-    border: none;
-    border-radius: 4px;
     display: block;
 }
 
-.editor-input:focus {
-    outline: none;
+.viewer-content {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    border-top: 1px solid #ccc;
+    font-size: 16px;
+    display: block;
+}
+
+.editor-title-author {
+    display: flex;
+    align-items: center;
 }
 
 .h1-style-input {
-    font-size: 2em;      /* Adjust size to match h1 */
-    font-weight: bold;   /* h1 is usually bold */
-    line-height: 1.1;    /* Optional: Adjust line height */
-    border: none;        /* Optional: Remove border */
-    background: none;    /* Optional: Remove background for transparency */
-    width: 100%;         /* Optional: Make it full width */
+    margin-right: 20px;
+    font-size: 2em;     
+    font-weight: bold;   
+    line-height: 1.1;
+    border: none;       
+    background: none; 
+}
+
+.editor-author {
+    font-size: 16px;
+    font-style: italic;
+    color: #555;
+}
+
+.editor-categories {
+    display: flex;
+    flex-wrap: wrap; /* Ensures chips wrap to the next line if necessary */
+    gap: 10px; /* Space between chips */
+    margin-top: 10px;
+}
+
+.category-chip {
+    background-color: #f0f0f0; /* Light grey background */
+    border-radius: 20px; /* Rounded corners */
+    padding: 5px 10px; /* Space inside the chip */
+    font-size: 14px;
+    color: #333; /* Darker text color */
+    display: inline-block;
+    white-space: nowrap; /* Prevent text from wrapping inside the chip */
+}
+
+.category-chip-edit {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #333;
+    display: inline-block;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.category-chip-edit.selected {
+    background-color: #cce4ff; /* Highlight selected categories */
+    color: #0052cc;
 }
 
 .tiptap p.is-editor-empty:first-child::before {
@@ -55,4 +108,30 @@
     float: left;
     height: 0;
     pointer-events: none;
+}
+
+.thumbnail-upload {
+    margin-top: 20px;
+    border: 1px dashed;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.thumbnail-upload label {
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.thumbnail-preview img {
+    max-width: 150px;
+    max-height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }

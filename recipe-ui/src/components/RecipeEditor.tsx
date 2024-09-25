@@ -17,16 +17,20 @@ import EditorBulletListIcon from '@atlaskit/icon/glyph/editor/bullet-list';
 import EditorBoldIcon from '@atlaskit/icon/glyph/editor/bold';
 import EditorUnderlineIcon from '@atlaskit/icon/glyph/editor/underline';
 import EditorItalicIcon from '@atlaskit/icon/glyph/editor/italic';
+import ImageIcon from '@atlaskit/icon/glyph/image'
 
 import '../css/RecipeEditor.css';
 import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+
+import {predefinedCategories} from "../config";
 
 type RecipeEditorProps = {
     recipe: {
         id: string | null;
         title: string | null;
         author: string | null;
-        category: string | null;
+        categories: string[] | null;
         article: string | null;
     };
 };
@@ -38,9 +42,35 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
         id: recipe?.id || null,
         title: recipe?.title || '',
         author: recipe?.author || '',
-        category: recipe?.category || '',
+        categories: recipe?.categories || [],
         article: recipe?.article || '',
     });
+
+    useEffect(() => {
+        if (formData.categories.length > 0) {
+            setSelectedCategories(formData.categories);
+        }
+    }, [formData.categories]);
+
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(formData.categories || []);
+    const handleCategorySelect = (category: string) => {
+        setSelectedCategories(prevSelected =>
+            prevSelected.includes(category)
+                ? prevSelected.filter(c => c !== category)
+                : [...prevSelected, category]
+        );
+    };
+
+    const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
+
+    const handleThumbnailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            // Create a preview URL for the selected image
+            const previewURL = URL.createObjectURL(file);
+            setThumbnailPreview(previewURL);
+        }
+    };
 
     // Tiptap editor initialization
     const editor = useEditor({
@@ -71,64 +101,82 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
     };
 
     const handleSubmit = () => {
-        // POST or UPDATE endpoint
-        // const recipeId = formData.id || response.data.id;
+        // TODO
         const recipeId = "1";
         navigate(`/recipes/${recipeId}`);
     };
 
     return (
         <div className="editor-container">
-            <div style={{display: "block", marginBottom: "20px", marginLeft: "80%"}}>
+             <div className="title-publish-container" style={{ display: "flex",  alignItems: "center", marginBottom: "20px" }}>
+                <input
+                    name="title"
+                    type="text"
+                    value={formData.title}
+                    onChange={handleChange}
+                    className="h1-style-input"
+                    placeholder="Title"
+                    style={{ flex: "1", marginRight: "20px" }}
+                />
                 <Button appearance="primary" onClick={handleSubmit}>Publish</Button>
             </div>
-            <ButtonGroup>
-                <Button onClick={() => editor.chain().focus().toggleBold().run()}
-                        className={editor.isActive('bold') ? 'is-active' : ''}>
-                    <EditorBoldIcon label="" />
-                </Button>
-                <Button onClick={() => editor.chain().focus().toggleItalic().run()}
-                        className={editor.isActive('italic') ? 'is-active' : ''}>
-                    <EditorItalicIcon label="" />
-                </Button>
-                <Button onClick={() => editor.chain().focus().toggleUnderline().run()}
-                        className={editor.isActive('underline') ? 'is-active' : ''}>
-                    <EditorUnderlineIcon label="" />
-                </Button>
-                <Button onClick={() => editor.chain().focus().toggleBulletList().run()}
-                        className={editor.isActive('bulletList') ? 'is-active' : ''}>
-                    <EditorBulletListIcon label="" />
-                </Button>
-                <Button onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                        className={editor.isActive('orderedList') ? 'is-active' : ''}>
-                    <EditorNumberListIcon label="" />
-                </Button>
-            </ButtonGroup>
-            <input
-                name="title"
-                type="text"
-                value={formData.title}
-                onChange={handleChange}
-                className="editor-input h1-style-input"
-                placeholder="Title"
-            />
-            <input
-                name="author"
-                type="text"
-                value={formData.author}
-                onChange={handleChange}
-                className="editor-input"
-                placeholder="Author"
-            />
-            <input
-                name="category"
-                type="text"
-                value={formData.category}
-                onChange={handleChange}
-                className="editor-input"
-                placeholder="Category"
-            />
-            <EditorContent editor={editor} className="editor-content" />
+            <div className="category-selection">
+                {predefinedCategories.map((category, index) => (
+                    <button
+                        key={index}
+                        onClick={() => handleCategorySelect(category)}
+                        className={selectedCategories.includes(category) ? 'category-chip-edit selected' : 'category-chip-edit'}
+                    >
+                        {category}
+                    </button>
+                ))}
+            </div>
+            <div className='editor-section'>
+                <ButtonGroup>
+                    <Button onClick={() => editor.chain().focus().toggleBold().run()}
+                            className={editor.isActive('bold') ? 'is-active' : ''}>
+                        <EditorBoldIcon label="" />
+                    </Button>
+                    <Button onClick={() => editor.chain().focus().toggleItalic().run()}
+                            className={editor.isActive('italic') ? 'is-active' : ''}>
+                        <EditorItalicIcon label="" />
+                    </Button>
+                    <Button onClick={() => editor.chain().focus().toggleUnderline().run()}
+                            className={editor.isActive('underline') ? 'is-active' : ''}>
+                        <EditorUnderlineIcon label="" />
+                    </Button>
+                    <Button onClick={() => editor.chain().focus().toggleBulletList().run()}
+                            className={editor.isActive('bulletList') ? 'is-active' : ''}>
+                        <EditorBulletListIcon label="" />
+                    </Button>
+                    <Button onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                            className={editor.isActive('orderedList') ? 'is-active' : ''}>
+                        <EditorNumberListIcon label="" />
+                    </Button>
+                </ButtonGroup>
+                <EditorContent editor={editor} className="editor-content" />
+            </div>
+            {/* Thumbnail Upload Section */}
+            <div className="thumbnail-upload">
+                <label htmlFor="thumbnail">
+                    <ImageIcon label="Upload Thumbnail" size="large" />
+                    <div className="thumbnail-caption">Choose Thumbnail</div>
+                </label>
+                <input 
+                    type="file" 
+                    id="thumbnail" 
+                    name="thumbnail" 
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handleThumbnailChange} // Handle file input change
+                />
+            </div>
+
+            {thumbnailPreview && (
+                <div className="thumbnail-preview">
+                    <img src={thumbnailPreview} alt="Thumbnail Preview" />
+                </div>
+            )}
         </div>
     );
 };

@@ -3,6 +3,8 @@ import { ButtonItem } from '@atlaskit/side-navigation';
 
 import '../css/SideNav.css';
 
+import {predefinedCategories} from "../config";
+
 const SideNav = () => {
     const handleSelected = () => {
         alert("Still working on this feature");
@@ -13,21 +15,11 @@ const SideNav = () => {
             <section className="side-nav-items">
                 <ButtonItem onClick={handleSelected} isSelected>All</ButtonItem>
             </section>
-            <section className="side-nav-items">
-                <ButtonItem onClick={handleSelected}>家常菜</ButtonItem>
-            </section>
-            <section className="side-nav-items">
-                <ButtonItem onClick={handleSelected}>便当</ButtonItem>
-            </section>
-            <section className="side-nav-items">
-                <ButtonItem onClick={handleSelected}>主食</ButtonItem>
-            </section>
-            <section className="side-nav-items">
-                <ButtonItem onClick={handleSelected}>硬菜</ButtonItem>
-            </section>
-            <section className="side-nav-items">
-                <ButtonItem onClick={handleSelected}>甜品</ButtonItem>
-            </section>
+            {predefinedCategories.map((category, index) => (
+                <section className="side-nav-items" key={index}>
+                    <ButtonItem onClick={handleSelected}>{category}</ButtonItem>
+                </section>
+            ))}
         </div>
     );
 };
