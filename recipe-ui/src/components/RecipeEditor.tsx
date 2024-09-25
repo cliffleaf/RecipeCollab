@@ -113,14 +113,6 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
                 placeholder="Title"
             />
             <input
-                name="author"
-                type="text"
-                value={formData.author}
-                onChange={handleChange}
-                className="editor-input"
-                placeholder="Author"
-            />
-            <input
                 name="category"
                 type="text"
                 value={formData.category}
