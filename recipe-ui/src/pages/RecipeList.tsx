@@ -1,6 +1,6 @@
 import TopNav from "../components/TopNav";
-import RecipeCard from "../components/RecipeCard";
 import SideNav from "../components/SideNav";
+import CommunityRecipeCard from "../components/CommunityRecipeCard";
 import { API_BASE_URL } from '../config';
 import {useEffect, useState} from "react";
 import axios, {AxiosError, AxiosResponse} from 'axios';
@@ -9,9 +9,7 @@ type Recipe = {
     id: string;
     title: string;
     author: string;
-    imageUrl?: string | null;
-    content?: string;
-    categories?: string[];
+    imageUrl: string;
 }
 
 const api = axios.create({
@@ -20,9 +18,29 @@ const api = axios.create({
 });
 
 const RecipeList = () => {
-    const [recipes, setRecipes] = useState([]); // State to store recipes
+    // const [recipes, setRecipes] = useState([]); // State to store recipes
 
-    api.get<Recipe[]>(`/api/recipe/all`).then(res => console.log(res.data));
+    // api.get<Recipe[]>(`/api/recipe/all`).then(res => console.log(res.data));
+    const recipes = [
+        {
+            id: "",
+            title: "Spaghetti Bolognese",
+            author: "",
+            imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+        },
+        {
+            id: "",
+            title: "Spaghetti Bolognese",
+            author: "",
+            imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+        },
+        {
+            id: "",
+            title: "Spaghetti Bolognese",
+            author: "",
+            imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+        },
+    ]
 
     return (
         <>
@@ -36,11 +54,11 @@ const RecipeList = () => {
                     </div>
                     <div className="app-recipe-card-container">
                         {recipes.map((recipe: Recipe) => (
-                            <RecipeCard
+                            <CommunityRecipeCard
                                 id={recipe.id}
                                 title={recipe.title}
                                 author={recipe.author}
-                                imgUrl="null"
+                                imgUrl={recipe.imageUrl}
                             />
                         ))}
                     </div>

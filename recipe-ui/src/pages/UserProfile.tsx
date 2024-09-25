@@ -2,13 +2,39 @@ import React, { useState } from "react";
 import TopNav from "../components/TopNav";
 import CommunityCard from "../components/CommunityCard";
 import '../css/UserProfile.css';
-import RecipeCard from "../components/RecipeCard";
+import ProfileRecipeCard from "../components/ProfileRecipeCard";
+import { useRef } from "react";
+import AddIcon from '@atlaskit/icon/glyph/add'
 
 const UserProfile = () => {
+    const inputFileRef = useRef<HTMLInputElement | null>(null);
+
     const [user, setUser] = useState({
         avatar: "https://via.placeholder.com/150",
         username: "JohnDoe",
-        uploadedRecipes: ["Spaghetti Bolognese", "Chicken Curry", "Beef Stew"],
+        uploadedRecipes: [
+            {
+                id: "",
+                title: "Spaghetti Bolognese",
+                author: "",
+                imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+                community: "xxx"
+            },
+            {
+                id: "",
+                title: "Spaghetti Bolognese",
+                author: "",
+                imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+                community: "xxx"
+            },
+            {
+                id: "",
+                title: "Spaghetti Bolognese",
+                author: "",
+                imageUrl: "https://img.taste.com.au/_e6onvZ7/w720-h480-cfill-q80/taste/2024/03/5-ingredient-turbo-charged-spaghetti-recipe-196959-1.jpg",
+                community: "xxx"
+            },
+        ],
         joinedCommunities: [
             {
                 communityName: "Community 1",
@@ -38,15 +64,17 @@ const UserProfile = () => {
         });
     };
 
-    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUser({ ...user, username: e.target.value });
-    };
-
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             const avatarUrl = URL.createObjectURL(file);
             setUser({ ...user, avatar: avatarUrl });
+        }
+    };
+
+    const handleAvatarClick = () => {
+        if (inputFileRef.current) {
+            inputFileRef.current.click();
         }
     };
 
@@ -57,46 +85,55 @@ const UserProfile = () => {
             </div>
             <div className="user-profile">
                 <div className="profile-section">
-                    <input type="file" onChange={handleAvatarChange} className="avatar-input" />
-                    <img src={user.avatar} alt="Avatar" className="avatar" />
-                    <input
-                        type="text"
-                        value={user.username}
-                        onChange={handleUsernameChange}
-                        className="username-input"
-                    />
+                    <div className="avatar-container">
+                        <img
+                            src={user.avatar}
+                            alt="Avatar"
+                            className="avatar"
+                            onClick={handleAvatarClick}
+                        />
+                        <i className="edit-icon fas fa-edit" onClick={handleAvatarClick}></i>
+                        <input
+                            type="file"
+                            ref={inputFileRef}
+                            onChange={handleAvatarChange}
+                            className="avatar-input"
+                            style={{ display: 'none' }}
+                        />
+                    </div>
+                    <div className="communities-section">
+                        <ul>
+                            {user.joinedCommunities.map((community, index) => (
+                                <CommunityCard
+                                    key={index}
+                                    communityName={community.communityName}
+                                    communityAvatar={community.communityAvatar}
+                                    memberCount={community.memberCount}
+                                    userPreferredName={community.userPreferredName}
+                                    onLeaveCommunity={() => handleLeaveCommunity(community.communityName)}
+                                />
+                            ))}
+                            <button onClick={handleAddCommunity} className="add-community-button">
+                                <AddIcon label="" />
+                            </button>
+                        </ul>
+                        
+                    </div>
                     <div className="recipes-section">
-                        <h3>Uploaded Recipes</h3>
                         <ul>
                             {user.uploadedRecipes.map((recipe, index) => (
-                                <RecipeCard 
+                                <ProfileRecipeCard 
                                     key={index}
-                                    id=""
-                                    title={recipe}
-                                    author=""
-                                    imgUrl=""
+                                    id={recipe.id}
+                                    title={recipe.title}
+                                    imgUrl={recipe.imageUrl}
                                 />
                             ))}
                         </ul>
                     </div>
                 </div>
 
-                <div className="communities-section">
-                    <h3>Joined Communities</h3>
-                    {user.joinedCommunities.map((community, index) => (
-                        <CommunityCard
-                            key={index}
-                            communityName={community.communityName}
-                            communityAvatar={community.communityAvatar}
-                            memberCount={community.memberCount}
-                            userPreferredName={community.userPreferredName}
-                            onLeaveCommunity={() => handleLeaveCommunity(community.communityName)}
-                        />
-                    ))}
-                    <button onClick={handleAddCommunity} className="add-community-button">
-                        Add Community
-                    </button>
-                </div>
+                
             </div>
         </div>
     );
