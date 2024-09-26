@@ -48,6 +48,11 @@ body {
     padding: 10px;
 }
 
+.login-container {
+    width: 20%;
+    margin: 0 auto;
+}
+
 /* Login with Google button styles */
 .gsi-material-button {
     -moz-user-select: none;

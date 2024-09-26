@@ -9,9 +9,9 @@ const TopNav = () => {
             <div className="nav-content">
                 <Link to="/"><MenuIcon label="" primaryColor="black" size="large" /></Link>
             </div>
-            <div className="nav-content">
-            <Link to="/login"><PersonIcon label="" primaryColor="black" size="large" /></Link>
-            </div>
+            {/* <div className="nav-content">
+                <Link to="/login"><PersonIcon label="" primaryColor="black" size="large" /></Link>
+            </div> */}
         </nav>
     );
 };
