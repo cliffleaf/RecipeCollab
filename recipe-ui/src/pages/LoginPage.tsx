@@ -1,9 +1,9 @@
 import React from 'react';
 import { signInWithPopup, googleProvider, auth } from '../firebase';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Login: React.FC = () => {
-  const history = useHistory();
+const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
 
   const handleGoogleLogin = () => {
     signInWithPopup(auth, googleProvider)
@@ -21,9 +21,8 @@ const Login: React.FC = () => {
           })
           .then((response) => response.json())
           .then((data) => {
-            // Handle the backend response (e.g., store user info, redirect)
             console.log('User logged in:', data);
-            history.push('/dashboard'); // Navigate to a different route on success
+            navigate('/');
           })
           .catch((error) => console.error('Error during token exchange:', error));
         });
@@ -43,4 +42,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

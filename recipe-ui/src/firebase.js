@@ -1,13 +1,15 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { FIREBASE_API_KEY } from '../local-config';
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: FIREBASE_API_KEY, // local config, ignored by git
+  authDomain: "recipecollab-cb277.firebaseapp.com",
+  projectId: "recipecollab-cb277",
+  storageBucket: "recipecollab-cb277.appspot.com",
+  messagingSenderId: "337184889919",
+  appId: "1:337184889919:web:59dd46c8cd1193246a6c8a",
+  measurementId: "G-8M63PEM8LX"
 };
 
 // Initialize Firebase
