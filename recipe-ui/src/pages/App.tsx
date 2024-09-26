@@ -5,6 +5,7 @@ import RecipeList from "./RecipeList";
 import UploadRecipePage from "./UploadRecipePage";
 import ViewRecipePage from "./ViewRecipePage";
 import UserProfile from "./UserProfile";
+import LoginPage from "./LoginPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
               <Route path="/upload" element={<UploadRecipePage />} />
               <Route path="/edit" element={<UploadRecipePage />} />
               <Route path="/recipes/:id" element={<ViewRecipePage />} />
+              <Route path="/login" element={<LoginPage />} />
           </Routes>
       </BrowserRouter>
   );
