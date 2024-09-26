@@ -1,9 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { FIREBASE_API_KEY } from '../local-config';
+import { FIREBASE_API_KEY } from './local-config';
 
+// retrive from Firebase - project settings
 const firebaseConfig = {
-  apiKey: FIREBASE_API_KEY, // local config, ignored by git
+  apiKey: FIREBASE_API_KEY,
   authDomain: "recipecollab-cb277.firebaseapp.com",
   projectId: "recipecollab-cb277",
   storageBucket: "recipecollab-cb277.appspot.com",
