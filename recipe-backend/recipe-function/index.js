@@ -11,7 +11,7 @@ const bucketName = 'io.github.kev404xd.recipe-collab-images';
  * 
  * {
  *  id: String,
- *  name: String,
+ *  title: String,
  *  author: String,
  *  categories: Array,
  *  article: String,
@@ -88,6 +88,44 @@ const createRecipe = async (recipeData) => {
     }
 };
 
+const updateRecipe = async (id, updatedData) => {
+    let imageUrl = updatedData.img; // Default to the existing image URL
+
+    try {
+        // If the image has been changed, it will be uploaded as base64 field
+        if (updatedData.img && updatedData.img.startsWith('data:image')) {
+            // overwrite the existing image, keep filename the same
+            imageUrl = await uploadImageToS3(id, updatedData.img);
+        }
+
+        const params = {
+            TableName: tableName,
+            Key: { id },
+            UpdateExpression: 'set #title = :title, #categories = :categories, #article = :article, #imgUrl = :imgUrl, #deleted = :deleted',
+            ExpressionAttributeNames: {
+                '#title': 'title',
+                '#categories': 'categories',
+                '#article': 'article',
+                '#imgUrl': 'imgUrl',
+                '#deleted': 'deleted'
+            },
+            ExpressionAttributeValues: {
+                ':title': updatedData.name,
+                ':categories': updatedData.categories,
+                ':article': updatedData.article,
+                ':imgUrl': imageUrl,
+                ':deleted': updatedData.deleted || false
+            },
+            ReturnValues: 'ALL_NEW'
+        };
+
+        const result = await dynamoDb.update(params).promise();
+        return response(200, { message: 'Recipe updated successfully', updatedRecipe: result.Attributes });
+    } catch (error) {
+        return response(500, { error: `Failed to update recipe: ${error.message}` });
+    }
+};
+
 const uploadImageToS3 = async (id, base64Image) => {
     const buffer = Buffer.from(base64Image, 'base64');
     const params = {
@@ -103,44 +141,6 @@ const uploadImageToS3 = async (id, base64Image) => {
         return data.Location; // Return the URL of the uploaded image
     } catch (error) {
         throw new Error(`Failed to upload image to S3: ${error.message}`);
-    }
-};
-
-const updateRecipe = async (id, updatedData) => {
-    let imageUrl = updatedData.img; // Default to the existing image URL
-
-    try {
-        // If the image has been changed, it will be uploaded as base64 field
-        if (updatedData.img && updatedData.img.startsWith('data:image')) {
-            // overwrite the existing image, keep filename the same
-            imageUrl = await uploadImageToS3(id, updatedData.img);
-        }
-
-        const params = {
-            TableName: tableName,
-            Key: { id },
-            UpdateExpression: 'set #name = :name, #categories = :categories, #article = :article, #imgUrl = :imgUrl, #deleted = :deleted',
-            ExpressionAttributeNames: {
-                '#name': 'name',
-                '#categories': 'categories',
-                '#article': 'article',
-                '#imgUrl': 'imgUrl',
-                '#deleted': 'deleted'
-            },
-            ExpressionAttributeValues: {
-                ':name': updatedData.name,
-                ':categories': updatedData.categories,
-                ':article': updatedData.article,
-                ':imgUrl': imageUrl,
-                ':deleted': updatedData.deleted || false
-            },
-            ReturnValues: 'ALL_NEW'
-        };
-
-        const result = await dynamoDb.update(params).promise();
-        return response(200, { message: 'Recipe updated successfully', updatedRecipe: result.Attributes });
-    } catch (error) {
-        return response(500, { error: `Failed to update recipe: ${error.message}` });
     }
 };
 

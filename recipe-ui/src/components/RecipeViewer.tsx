@@ -1,6 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import '../css/Recipe.css'
 import EditIcon from '@atlaskit/icon/glyph/edit'
 import ShareIcon from '@atlaskit/icon/glyph/share';
@@ -10,19 +10,55 @@ type RecipeInfo = {
     title: string,
     author: string,
     categories: string[],
-    article: string
+    article: string,
+    imgUrl?: string,
 }
 
-const RecipeViewer: React.FC<RecipeViewerProps> = ({ id }) => {
+const RecipeViewer: React.FC<RecipeViewerProps> = () => {
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const [recipeData, setRecipeData] = useState<RecipeInfo | null>(null);
     const [showShareMenu, setShowShareMenu] = useState(false);
+    const [recipeNotFound, setRecipeNotFound] = useState(false);
 
-    const recipeData: RecipeInfo = {
-        title: "Orange Chicken",
-        author: "东街一只猫",
-        categories: ["便当", "家常菜"],
-        article: "step 1"
-    };
+    // const recipeData: RecipeInfo = {
+    //     title: "Orange Chicken",
+    //     author: "东街一只猫",
+    //     categories: ["便当", "家常菜"],
+    //     article: "step 1"
+    // };
+    useEffect(() => {
+        // Fetch the recipe data from the backend
+        const fetchRecipe = async () => {
+            try {
+                const response = await fetch(`https://xibm7nq2jf.execute-api.ap-southeast-2.amazonaws.com/default/recipes/${id}`);
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        setRecipeNotFound(true);
+                    } else {
+                        console.error('Failed to fetch the recipe data');
+                    }
+                }
+
+                const data = await response.json();
+                setRecipeData(data);
+            } catch (error) {
+                console.error('Error fetching recipe:', error);
+            }
+        };
+
+        fetchRecipe();
+    }, [id]);
+
+    
+    if (!recipeData) {
+        return <div>Loading...</div>; // Show loading state while fetching data
+    }
+
+    if (recipeNotFound) {
+        return <div>Recipe not found. It might have been deleted</div>;
+    }
+
 
     const handleEdit = () => {
         navigate('/edit', { state: { recipe: recipeData } });
