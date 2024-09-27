@@ -61,9 +61,10 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
         );
     };
 
+    const [thumbnailChanged, setThumbnailChanged] = useState(false);
     const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
-
     const handleThumbnailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setThumbnailChanged(true);
         const file = event.target.files?.[0];
         if (file) {
             // Create a preview URL for the selected image
