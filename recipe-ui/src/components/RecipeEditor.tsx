@@ -32,6 +32,7 @@ type RecipeEditorProps = {
         author: string | null;
         categories: string[] | null;
         article: string | null;
+        imgUrl: string | null;
     };
 };
 
@@ -39,11 +40,11 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
     const navigate = useNavigate();
     // if there is data, then the page was redirected from "edit" button, not "upload new" button
     const [formData, setFormData] = useState({
-        id: recipe?.id || null,
-        title: recipe?.title || '',
-        author: recipe?.author || '',
+        id: recipe.id || null,
+        title: recipe.title || '',
         categories: recipe?.categories || [],
-        article: recipe?.article || '',
+        article: recipe.article || '',
+        imgUrl: recipe?.imgUrl || null,
     });
 
     useEffect(() => {
@@ -101,11 +102,54 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
         }));
     };
 
-    const handleSubmit = () => {
-        // TODO
-        const recipeId = "1";
-        navigate(`/recipes/${recipeId}`);
+    const handleSubmit = async () => {
+        const payload = {
+            ...formData,
+            categories: selectedCategories,
+            article: editor.getHTML(),
+        };
+    
+        if (thumbnailChanged && thumbnailPreview) {
+            const fileInput = document.getElementById('thumbnail');
+            const file = fileInput.files[0];
+            payload.img = await convertFileToBase64(file);
+        }
+    
+        try {
+            const url = formData.id 
+                ? `https://your-api-endpoint/recipes/${formData.id}` // Update endpoint
+                : 'https://your-api-endpoint/recipes'; // Create endpoint
+    
+            const method = formData.id ? 'PUT' : 'POST';
+    
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to publish recipe');
+            }
+    
+            // Redirect to the recipe viewer page
+            navigate(`/recipes/${formData.id || (await response.json()).id}`);
+        } catch (error) {
+            console.error('Error publishing recipe:', error);
+        }
     };
+    
+    const convertFileToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
+    };
+    
 
     return (
         <div className="editor-container">

@@ -7,6 +7,7 @@ import ShareIcon from '@atlaskit/icon/glyph/share';
 
 type RecipeViewerProps = {id: string};
 type RecipeInfo = {
+    id: string,
     title: string,
     author: string,
     categories: string[],

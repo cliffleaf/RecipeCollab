@@ -71,11 +71,14 @@ const getRecipe = async (id) => {
 };
 
 const createRecipe = async (recipeData) => {
+    let imgUrl;
     try {
         // Upload the image to S3
-        const imageUrl = await uploadImageToS3(recipeData.id, recipeData.img);
-        recipeData.img = imageUrl; // Replace the image data with the S3 URL
-
+        if (recipeData.img && recipeData.img.startsWith('data:image')) {
+            imgUrl = await uploadImageToS3(recipeData.id, recipeData.img);
+            recipeData.img = imgUrl; // Replace the image data with the S3 URL
+        }
+        
         const params = {
             TableName: tableName,
             Item: recipeData
