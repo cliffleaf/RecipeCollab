@@ -1,9 +1,8 @@
 import TopNav from "../components/TopNav";
 import SideNav from "../components/SideNav";
-import CommunityRecipeCard from "../components/CommunityRecipeCard";
+import RecipeCard from "../components/RecipeCard";
 import { API_BASE_URL } from '../config';
-import {useEffect, useState} from "react";
-import axios, {AxiosError, AxiosResponse} from 'axios';
+import axios from 'axios';
 import '../css/RecipeList.css';
 import EditorSearchIcon from '@atlaskit/icon/glyph/editor/search'
 
@@ -79,7 +78,7 @@ const RecipeList = () => {
                         
                         <div className="app-recipe-card-container">
                             {recipes.map((recipe: Recipe) => (
-                                <CommunityRecipeCard
+                                <RecipeCard
                                     id={recipe.id}
                                     title={recipe.title}
                                     author={recipe.author}

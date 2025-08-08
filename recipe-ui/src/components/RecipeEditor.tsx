@@ -103,16 +103,27 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
     };
 
     const handleSubmit = async () => {
-        const payload = {
+    type Payload = {
+        id: string | null;
+        title: string;
+        categories: string[];
+        article: string;
+        imgUrl: string | null;
+        img?: string;
+    };
+
+    const payload: Payload = {
             ...formData,
             categories: selectedCategories,
             article: editor.getHTML(),
         };
     
         if (thumbnailChanged && thumbnailPreview) {
-            const fileInput = document.getElementById('thumbnail');
+        const fileInput = document.getElementById('thumbnail') as HTMLInputElement;
+        if (fileInput && fileInput.files && fileInput.files.length > 0) {
             const file = fileInput.files[0];
             payload.img = await convertFileToBase64(file);
+        }
         }
     
         try {
@@ -141,11 +152,11 @@ const RecipeEditor: React.FC<RecipeEditorProps> = ( { recipe } ) => {
         }
     };
     
-    const convertFileToBase64 = (file) => {
+const convertFileToBase64 = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
+        reader.onload = () => resolve(reader.result as string);
             reader.onerror = (error) => reject(error);
         });
     };
