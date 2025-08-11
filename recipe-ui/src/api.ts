@@ -6,18 +6,21 @@ export async function listDocs(): Promise<DocListItem[]> {
   return res.json(); // expect: [{ id, title }]
 }
 
-export async function loadDoc(docId: string): Promise<string | null> {
+export async function loadDoc(docId: string): Promise<{ content: string; title?: string } | null> {
   const res = await fetch(`/api/docs/${docId}`);
   if (!res.ok) return null;
-  const data = await res.json(); // expect: { content: string }
-  return (data?.content as string) ?? '';
+  const data = await res.json(); // expect: { id, title?, content }
+  return {
+    content: (data?.content as string) ?? '',
+    title: data?.title as (string | undefined),
+  };
 }
 
-export async function saveDoc(docId: string, content: string) {
+export async function saveDoc(docId: string, content: string, title?: string) {
   await fetch(`/api/docs/${docId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content }),
+    body: JSON.stringify(title != null ? { content, title } : { content }),
   });
 }
 

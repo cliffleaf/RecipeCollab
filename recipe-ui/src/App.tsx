@@ -63,7 +63,16 @@ export default function App() {
       <Routes>
         <Route element={<Layout docs={docs} setDocs={setDocs} />}>
           <Route index element={<Home />} />
-          <Route path="/recipes/:id" element={<RecipeEditorPage />} />
+          <Route
+            path="/recipes/:id"
+            element={
+              <RecipeEditorPage
+                onTitleChange={(id, title) => {
+                  setDocs((prev) => prev.map((d) => (d.id === id ? { ...d, title } : d)));
+                }}
+              />
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

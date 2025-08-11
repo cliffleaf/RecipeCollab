@@ -100,3 +100,25 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
   border: 1px solid black; /* thin black border */
   background: #fff;
 }
+
+.editor-titlebar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0 12px;
+}
+
+.title-input {
+  flex: 1;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  background: #fff;
+  outline: none;
+}
+.title-input:focus {
+  border-color: #333;
+}

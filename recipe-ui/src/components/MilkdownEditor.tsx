@@ -1,5 +1,4 @@
-// src/components/MilkdownEditor.tsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react'; 
 import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react';
 import { Crepe } from '@milkdown/crepe';
 
@@ -8,8 +7,9 @@ import '@milkdown/crepe/theme/frame.css';
 
 import { loadDoc, saveDoc } from '../api';
 
-function EditorCore({ docId }: { docId: string | null }) {
+function EditorCore({ docId, onTitleChange }: { docId: string | null; onTitleChange?: (id: string, title: string) => void }) {
   const { get } = useEditor((root) => new Crepe({ root }));
+  const [title, setTitle] = useState<string>('');
 
   // Load when docId changes
   useEffect(() => {
@@ -17,8 +17,14 @@ function EditorCore({ docId }: { docId: string | null }) {
     if (!crepe) return;
 
     (async () => {
-      const markdown = docId ? await loadDoc(docId) : '';
-      (crepe as any).setMarkdown?.(markdown || '');
+      if (!docId) {
+        setTitle('Untitled');
+        (crepe as any).setMarkdown?.('');
+        return;
+      }
+      const data = await loadDoc(docId); // { content, title }
+      setTitle(data?.title ?? 'Untitled');
+      (crepe as any).setMarkdown?.(data?.content ?? '');
     })();
   }, [docId, get]);
 
@@ -26,12 +32,19 @@ function EditorCore({ docId }: { docId: string | null }) {
     const crepe = get();
     if (!crepe || !docId) return;
     const markdown: string = (crepe as any).getMarkdown?.() ?? '';
-    await saveDoc(docId, markdown);
+    await saveDoc(docId, markdown, title?.trim() || 'Untitled');
+    onTitleChange?.(docId, title?.trim() || 'Untitled');
   };
 
   return (
     <div className="editor-area">
-      <div className="editor-toolbar">
+      <div className="editor-titlebar">
+        <input
+          className="title-input"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Untitled recipe"
+        />
         <button className="save-btn" onClick={handleSave} disabled={!docId}>
           Save
         </button>
@@ -41,10 +54,10 @@ function EditorCore({ docId }: { docId: string | null }) {
   );
 }
 
-export default function MilkdownEditor({ docId }: { docId: string | null }) {
+export default function MilkdownEditor({ docId, onTitleChange }: { docId: string | null; onTitleChange?: (id: string, title: string) => void }) {
   return (
     <MilkdownProvider>
-      <EditorCore docId={docId} />
+      <EditorCore docId={docId} onTitleChange={onTitleChange} />
     </MilkdownProvider>
   );
 }
