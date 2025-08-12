@@ -73,7 +73,10 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
   background: transparent;
   cursor: pointer;
 }
-.nav-item.active { border-color: #333; }
+.nav-item.active { background: #f0f4f5; }
+.nav-item:hover {
+  background: #f0f4f5;
+}
 
 /* Editor content */
 .content {
