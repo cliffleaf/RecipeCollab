@@ -26,6 +26,7 @@ Resources:
         - GET
         - POST
         - PUT
+        - DELETE
         - OPTIONS
         AllowOrigins:
         - '*'
@@ -36,7 +37,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: RecipesCollection
-      Handler: collection_handler.handler
+      Handler: collection-handler.handler
       CodeUri: CollectionFunction
       Environment:
         Variables:
@@ -68,7 +69,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: RecipesItem
-      Handler: item_handler.handler
+      Handler: item-handler.handler
       CodeUri: ItemFunction
       Environment:
         Variables:
@@ -94,6 +95,13 @@ Resources:
               Ref: HttpApi
             Path: /api/docs/{id}
             Method: PUT
+        DeleteItem:
+          Type: HttpApi
+          Properties:
+            ApiId:
+              Ref: HttpApi
+            Path: /api/docs/{id}
+            Method: DELETE
     Metadata:
       SamResourceId: ItemFunction
 Outputs:

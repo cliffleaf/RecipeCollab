@@ -37,8 +37,7 @@ export async function createDoc(content: string): Promise<string> {
 
 export async function deleteDoc(docId: string): Promise<boolean> {
   const res = await fetch(
-    `https://xyxzeuwkta.execute-api.ap-southeast-2.amazonaws.com/api/docs/${docId}`,
-    { method: 'DELETE' }
+    `https://xyxzeuwkta.execute-api.ap-southeast-2.amazonaws.com/api/docs/${docId}`, { method: 'DELETE' }
   );
   return res.ok;
 }
