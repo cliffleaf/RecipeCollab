@@ -33,7 +33,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: RecipesCollection
-      Handler: collection_handler.handler
+      Handler: collection-handler.handler
       CodeUri: recipe-functions/collection-handler/
       Environment:
         Variables:
@@ -60,7 +60,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: RecipesItem
-      Handler: item_handler.handler
+      Handler: item-handler.handler
       CodeUri: recipe-functions/item-handler/
       Environment:
         Variables:

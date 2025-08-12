@@ -34,10 +34,13 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
   padding: 6px 12px;
   border-radius: 8px;
   border: 1px solid #e1e1e1;
-  background: #fafafa;
+  background: #e1e1e1;
   cursor: pointer;
 }
 .new-btn:disabled, .save-btn:disabled { opacity: 0.6; cursor: default; }
+.new-btn:hover, .save-btn:hover {
+  background: azure;
+}
 
 /* Main area: left nav + editor */
 .main { display: flex; min-height: 0; flex: 1; }

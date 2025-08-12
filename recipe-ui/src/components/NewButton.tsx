@@ -1,6 +1,7 @@
 // src/components/NewDocButton.tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createDoc } from '../api';
 
 export function NewDocButton({
   onCreated,
@@ -13,8 +14,7 @@ export function NewDocButton({
   const handleNew = async () => {
     setPending(true);
     try {
-        // const id = await createDoc('');     // create empty recipe, get id immediately
-        const id = "1";
+        const id = await createDoc('');     // create empty recipe, get id immediately
         onCreated(id, 'Untitled');          // update list in parent
         navigate(`/recipes/${id}`);         // go straight to the editor for this id
     } finally {
