@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react';
-import { getMarkdown } from '@milkdown/utils';
 import { Crepe } from '@milkdown/crepe';
 
+// Styles
 import '@milkdown/crepe/theme/common/style.css';
 import '@milkdown/crepe/theme/frame.css';
+
+// Milkdown utils & listener plugin (stable across versions)
+import { replaceAll } from '@milkdown/utils';
+import { listener, listenerCtx } from '@milkdown/plugin-listener';
 
 import { loadDoc, saveDoc } from '../api';
 
@@ -14,87 +18,133 @@ type Props = {
 };
 
 function EditorCore({ docId, onTitleChange }: Props) {
-  const { get } = useEditor((root) => new Crepe({ root }));
-  const contentRef = useRef<string>('');
+  // Keep the actual Crepe instance, instead of useEditor().get() which is a Milkdown Editor
+  const crepeRef = useRef<Crepe | null>(null);
 
+  // Create Crepe once and stash the instance in a ref.
+  const { get } = useEditor((root) => {
+    const crepe = new Crepe({
+      root,
+      features: {
+        [Crepe.Feature.Toolbar]: true,
+        [Crepe.Feature.Placeholder]: true,
+      },
+      featureConfigs: {
+        [Crepe.Feature.Placeholder]: { text: 'Start writing...', mode: 'block' },
+      },
+      defaultValue: '', // we inject real content after load
+    });
+    crepeRef.current = crepe;
+    return crepe;
+  });
+
+  // Title & guard so loads don’t clobber user typing
   const [title, setTitle] = useState<string>('Untitled');
-
-  // Track if user has edited the title to avoid loader overwriting it.
   const userEditedTitleRef = useRef(false);
 
-  // Reset the “user edited” flag whenever we switch to a new doc
+  // Live markdown cache (filled by listener plugin)
+  const mdRef = useRef<string>('');
+
+  // Attach listener plugin ONCE to the inner Milkdown editor so we always
+  // have the latest markdown in mdRef — works even if Crepe’s .on/.listen API varies.
+  const listenerAttachedRef = useRef(false);
+  useEffect(() => {
+    const crepe = crepeRef.current ?? (get() as unknown as Crepe | null);
+    if (!crepe || listenerAttachedRef.current) return;
+
+    // Crepe wraps a Milkdown Editor on `crepe.editor`
+    const inner = (crepe as any).editor;
+    if (!inner) return;
+
+    // Ensure listener plugin is loaded and hook markdown updates
+    inner.use(listener);
+    inner.action((ctx: any) => {
+      ctx.get(listenerCtx).markdownUpdated((_: any, markdown: string) => {
+        mdRef.current = markdown ?? '';
+      });
+    });
+
+    listenerAttachedRef.current = true;
+  }, [get]);
+
+  // Helper: set markdown for current doc (handles versions without setMarkdown)
+  const setMarkdownCompat = (markdown: string) => {
+    const crepe = crepeRef.current ?? (get() as unknown as Crepe | null);
+    if (!crepe) return;
+
+    // Prefer native method if present
+    const maybeSet = (crepe as any).setMarkdown;
+    if (typeof maybeSet === 'function') {
+      maybeSet.call(crepe, markdown);
+      return;
+    }
+
+    // Fallback: use Milkdown's replaceAll via the inner editor
+    const inner = (crepe as any).editor;
+    if (inner && typeof inner.action === 'function') {
+      inner.action(replaceAll(markdown || ''));
+    }
+  };
+
+  // Reset the "user edited title" flag on doc switch
   useEffect(() => {
     userEditedTitleRef.current = false;
   }, [docId]);
 
-  // LOAD only when docId changes
+  // Load content when docId changes; do NOT depend on anything else.
   useEffect(() => {
-    const crepe = get();
-    if (!crepe) return;
-
     let alive = true;
-
     (async () => {
-      const data = docId ? await loadDoc(docId) : { content: '', title: 'Untitled' };
+      const data = docId
+        ? await loadDoc(docId) // { content, title } | null
+        : { content: '', title: 'Untitled' };
 
       if (!alive) return;
 
-      // Only set the title if user hasn't started typing yet
+      // Inject content (compat sets via replaceAll if needed)
+      setMarkdownCompat(data?.content ?? '');
+
+      // Seed cache so Save has something even before the first change event
+      mdRef.current = data?.content ?? '';
+
+      // Only set title if the user hasn’t started typing locally
       if (!userEditedTitleRef.current) {
         setTitle((data?.title ?? 'Untitled') || 'Untitled');
       }
-
-      (crepe as any).setMarkdown?.(data?.content ?? '');
-      contentRef.current = data?.content ?? '';
     })();
-
     return () => {
       alive = false;
     };
-  }, [docId, get]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [docId]);
 
-  useEffect(() => {
-    const crepe = get();
-    if (!crepe) return;
-
-    const off = (crepe as any).onChange?.((_: unknown, md: string) => {
-      contentRef.current = md ?? '';
-    });
-
-    return () => {
-      if (typeof off === 'function') off();
-    };
-  }, [get]);
-
+  // Title edit
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     userEditedTitleRef.current = true;
     setTitle(e.target.value);
   };
 
+  // Save: prefer crepe.getMarkdown() if it exists; otherwise use mdRef
   const handleSave = async () => {
     if (!docId) return;
+    const crepe = crepeRef.current ?? (get() as unknown as Crepe | null);
     const nextTitle = (title?.trim() || 'Untitled');
-    // const crepe = get?.();
-    // const markdown =
-    //   (crepe as any)?.getMarkdown?.()        // preferred: read from editor crepe.editor.action(getMarkdown())
-    //   ?? contentRef.current                  // fallback if API not present
-    //   ?? '';
-    const editor = new Crepe({
-      root: '#editor', // DOM element or selector
-      features: {
-        [Crepe.Feature.Toolbar]: true,
-        [Crepe.Feature.Latex]: true,
-      }
-    })
 
-    // Get markdown content
-    const markdown = editor.getMarkdown()
-    console.log("markdown " + markdown)
+    let markdown = mdRef.current ?? '';
+    try {
+      const maybeGet = (crepe as any)?.getMarkdown;
+      if (typeof maybeGet === 'function') {
+        markdown = maybeGet.call(crepe) ?? markdown;
+      }
+    } catch {
+      // fall back to cached mdRef
+    }
 
     try {
       await saveDoc(docId, markdown, nextTitle);
       onTitleChange?.(docId, nextTitle);
     } catch (e) {
+      // Make sure your saveDoc() doesn’t try to JSON-parse empty bodies.
       console.error('Save failed', e);
     }
   };
@@ -110,7 +160,7 @@ function EditorCore({ docId, onTitleChange }: Props) {
         />
         <button
           className="save-btn"
-          onMouseDown={(e) => e.preventDefault()}
+          onMouseDown={(e) => e.preventDefault()} // avoid editor focus quirks
           onClick={handleSave}
           disabled={!docId}
         >
