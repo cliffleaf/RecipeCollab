@@ -64,19 +64,37 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
   display: grid;
   gap: 6px;
 }
+/* Keep delete icon inline with the title */
+.sidenav-item-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
 .nav-item {
-  width: 100%;
+  display: inline-flex;      /* override block */
+  width: 100%; 
   text-align: left;
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid transparent;
   background: transparent;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .nav-item.active { background: #f0f4f5; }
 .nav-item:hover {
   background: #f0f4f5;
 }
+.delete-btn {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  flex: 0 0 auto;
+}
+.delete-btn:hover { color: red; }
 
 /* Editor content */
 .content {

@@ -14,7 +14,7 @@ ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "*")
 CORS = {
     "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
     "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "GET,PUT,OPTIONS",
+    "Access-Control-Allow-Methods": "GET,PUT,DELETE,OPTIONS",
 }
 
 # ---- utils ----
@@ -71,6 +71,18 @@ def update_doc(doc_id: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         raise
     return {"ok": True}
 
+def delete_doc(doc_id: str) -> Dict[str, Any]:
+    try:
+        TABLE.delete_item(
+            Key={"id": doc_id},
+            ConditionExpression="attribute_exists(id)",
+        )
+    except ClientError as e:
+        if e.response["Error"]["Code"] == "ConditionalCheckFailedException":
+            return {"error": "Not found", "status": 404}
+        raise
+    return {"ok": True}
+
 # ---- handler for GET /api/docs/{id}, PUT /api/docs/{id}
 def handler(event, context):
     method = (event.get("requestContext", {}).get("http", {}) or {}).get("method") or event.get("httpMethod")
@@ -96,6 +108,15 @@ def handler(event, context):
             return make_resp(200, result)
         except ValueError:
             return make_resp(400, {"error": "Bad request"})
+        except ClientError:
+            return make_resp(500, {"error": "Internal error"})
+    
+    if method == "DELETE":
+        try:
+            result = delete_doc(doc_id)
+            if "error" in result:
+                return make_resp(result["status"], {"error": result["error"]})
+            return make_resp(204)
         except ClientError:
             return make_resp(500, {"error": "Internal error"})
 

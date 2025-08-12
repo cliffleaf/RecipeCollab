@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
-import { listDocs, type DocListItem } from './api';
+import { listDocs, type DocListItem, deleteDoc } from './api';
 import { NewDocButton } from './components/NewButton';
 import { SideNav } from './components/SideNav';
 import Home from './components/Home';
@@ -27,6 +27,18 @@ function Layout({
   const activeId = useActiveIdFromLocation();
   const navigate = useNavigate();
 
+  const handleDelete = async (id: string) => {
+    try {
+      const ok = await deleteDoc(id);
+      if (!ok) throw new Error('Delete failed');
+      setDocs((prev) => prev.filter((d) => d.id !== id));
+      navigate('/'); // redirect to Home
+    } catch (err) {
+      console.error(err);
+      alert('Failed to delete recipe. Please try again.');
+    }
+  };
+
   return (
     <div className="layout">
       <header className="topbar">
@@ -42,6 +54,7 @@ function Layout({
           docs={docs}
           activeId={activeId}
           onSelect={(id) => navigate(`/recipes/${id}`)}
+          onDelete={handleDelete}
         />
         <div className="content">
           <Outlet />
