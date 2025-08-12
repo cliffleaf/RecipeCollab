@@ -1,0 +1,147 @@
+/* src/App.css */
+html, body, #root { height: 100%; }
+body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+
+.layout { min-height: 100%; display: flex; flex-direction: column; }
+
+/* Home blank message */
+.home-blank {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9aa0a6; /* grey */
+  font-size: 28px;
+  letter-spacing: 0.2px;
+  user-select: none;
+}
+
+
+/* Top bar */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #eaeaea;
+  background: #fff;
+}
+
+.new-btn, .save-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #e1e1e1;
+  background: #e1e1e1;
+  cursor: pointer;
+}
+.new-btn:disabled, .save-btn:disabled { opacity: 0.6; cursor: default; }
+.new-btn:hover, .save-btn:hover {
+  background: azure;
+}
+
+/* Main area: left nav + editor */
+.main { display: flex; min-height: 0; flex: 1; }
+
+/* Side nav */
+.sidenav {
+  width: 260px;
+  border-right: 1px solid #eaeaea;
+  padding: 12px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+.sidenav-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.sidenav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.nav-item {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+}
+.nav-item.active { border-color: #333; }
+
+/* Editor content */
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.editor-area {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.editor-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 0;
+}
+
+/* Milkdown editable area */
+.milkdown .ProseMirror {
+  min-height: 70vh;
+  padding: 24px;
+  box-sizing: border-box;
+  border: 1px solid black; /* thin black border */
+  background: #fff;
+}
+
+.editor-titlebar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0 12px;
+}
+
+.title-input {
+  flex: 1;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  background: #fff;
+  outline: none;
+}
+.title-input:focus {
+  border-color: #333;
+}
+
+.save-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 30%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease-in-out;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25);
+}
+.save-toast.show {
+  opacity: 1;
+}

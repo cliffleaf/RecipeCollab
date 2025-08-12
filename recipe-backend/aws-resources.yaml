@@ -1,0 +1,89 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Resources for RecipeCollab backend
+
+Globals:
+  Function:
+    Runtime: python3.13
+    Timeout: 10
+    MemorySize: 128
+
+Resources:
+  RecipesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Recipes
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowMethods: ['GET', 'POST', 'PUT', 'OPTIONS']
+        AllowOrigins: ['*']
+        AllowHeaders: ['Content-Type', 'If-Match']
+
+  CollectionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: RecipesCollection
+      Handler: collection-handler.handler
+      CodeUri: recipe-functions/collection-handler/
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref RecipesTable
+          ALLOWED_ORIGIN: '*'
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RecipesTable
+      Events:
+        GetList:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /api/docs
+            Method: GET
+        PostCreate:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /api/docs
+            Method: POST
+
+  ItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: RecipesItem
+      Handler: item-handler.handler
+      CodeUri: recipe-functions/item-handler/
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref RecipesTable
+          ALLOWED_ORIGIN: '*'
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RecipesTable
+      Events:
+        GetItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /api/docs/{id}
+            Method: GET
+        PutItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /api/docs/{id}
+            Method: PUT
+
+Outputs:
+  ApiUrl:
+    Description: Base URL for the HTTP API
+    Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"
