@@ -41,6 +41,7 @@ function EditorCore({ docId, onTitleChange }: Props) {
   // Title & guard so loads don’t clobber user typing
   const [title, setTitle] = useState<string>('Untitled');
   const userEditedTitleRef = useRef(false);
+  const [showToast, setShowToast] = useState(false);
 
   // Live markdown cache (filled by listener plugin)
   const mdRef = useRef<string>('');
@@ -143,6 +144,8 @@ function EditorCore({ docId, onTitleChange }: Props) {
     try {
       await saveDoc(docId, markdown, nextTitle);
       onTitleChange?.(docId, nextTitle);
+      setShowToast(true);
+      window.setTimeout(() => setShowToast(false), 1500);
     } catch (e) {
       // Make sure your saveDoc() doesn’t try to JSON-parse empty bodies.
       console.error('Save failed', e);
@@ -168,6 +171,7 @@ function EditorCore({ docId, onTitleChange }: Props) {
         </button>
       </div>
       <Milkdown />
+      <div className={`save-toast ${showToast ? 'show' : ''}`}>Saved</div>
     </div>
   );
 }

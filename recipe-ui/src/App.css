@@ -125,3 +125,23 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
 .title-input:focus {
   border-color: #333;
 }
+
+.save-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 30%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease-in-out;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25);
+}
+.save-toast.show {
+  opacity: 1;
+}
