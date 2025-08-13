@@ -26,6 +26,7 @@ function Layout({
 }) {
   const activeId = useActiveIdFromLocation();
   const navigate = useNavigate();
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   const handleDelete = async (id: string) => {
     try {
@@ -42,6 +43,24 @@ function Layout({
   return (
     <div className="layout">
       <header className="topbar">
+        <button className="hamburger-btn" onClick={() => setIsNavOpen(!isNavOpen)} aria-label="open navigation">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+          >
+            {isNavOpen ? (
+              <path d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
         <NewDocButton
           onCreated={(id, title) => {
             setDocs((d) => [{ id, title: title ?? 'Untitled' }, ...d]);
@@ -53,7 +72,11 @@ function Layout({
         <SideNav
           docs={docs}
           activeId={activeId}
-          onSelect={(id) => navigate(`/recipes/${id}`)}
+          isOpen={isNavOpen}
+          onSelect={(id) => {
+            navigate(`/recipes/${id}`);
+            setIsNavOpen(false); // close nav on selection
+          }}
           onDelete={handleDelete}
         />
         <div className="content">
