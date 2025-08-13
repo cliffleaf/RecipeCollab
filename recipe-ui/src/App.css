@@ -131,6 +131,13 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
   box-sizing: border-box;
   border: 1px solid black; /* thin black border */
   background: #fff;
+  /* Reset left padding to be same as others, hiding the block handle gutter */
+  padding-left: 24px !important;
+}
+
+/* Hide the block handle trigger button */
+.block-menu-trigger {
+  display: none !important;
 }
 
 .editor-titlebar {
