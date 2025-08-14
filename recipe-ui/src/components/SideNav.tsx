@@ -3,16 +3,18 @@ import type { DocListItem } from '../api';
 export function SideNav({
   docs,
   activeId,
+  isOpen,
   onSelect,
   onDelete,
 }: {
   docs: DocListItem[];
   activeId: string | null;
-  onSelect: (id: string) => void;
+  isOpen: boolean;
+  onSelect: (id:string) => void;
   onDelete: (id: string) => void;
 }) {
   return (
-    <aside className="sidenav">
+    <aside className={`sidenav ${isOpen ? 'is-open' : ''}`}>
       <div className="sidenav-title">Recipes</div>
       <ul className="sidenav-list">
         {docs.map((d) => (

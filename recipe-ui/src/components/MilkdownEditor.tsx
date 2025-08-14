@@ -28,6 +28,7 @@ function EditorCore({ docId, onTitleChange }: Props) {
       features: {
         [Crepe.Feature.Toolbar]: true,
         [Crepe.Feature.Placeholder]: true,
+        [Crepe.Feature.BlockEdit]: false,
       },
       featureConfigs: {
         [Crepe.Feature.Placeholder]: { text: 'Start writing...', mode: 'block' },

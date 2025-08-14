@@ -30,6 +30,14 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
   background: #fff;
 }
 
+.hamburger-btn {
+  display: none; /* hidden by default */
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
 .new-btn, .save-btn {
   padding: 6px 12px;
   border-radius: 8px;
@@ -121,8 +129,9 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
   min-height: 70vh;
   padding: 24px;
   box-sizing: border-box;
-  border: 1px solid black; /* thin black border */
+  border: 1px solid black;
   background: #fff;
+  padding-left: 30px !important;
 }
 
 .editor-titlebar {
@@ -165,4 +174,31 @@ body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI
 }
 .save-toast.show {
   opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block;
+    z-index: 20; /* above sidenav */
+  }
+
+  .sidenav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    background: #fff;
+    z-index: 15;
+    padding-top: 60px; /* space for topbar */
+  }
+
+  .sidenav.is-open {
+    transform: translateX(0);
+  }
+
+  .content {
+    padding: 8px;
+  }
 }
